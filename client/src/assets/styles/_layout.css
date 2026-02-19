@@ -1,0 +1,68 @@
+/* Fixed viewport utilities for mission control layout */
+
+.fixed-viewport {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: var(--orket-bg-panel);
+  border: 1px solid var(--orket-border);
+}
+
+.panel__header {
+  display: flex;
+  align-items: center;
+  gap: var(--orket-space-md);
+  height: var(--orket-panel-header-h);
+  min-height: var(--orket-panel-header-h);
+  padding: 0 var(--orket-space-lg);
+  background: var(--orket-bg-surface);
+  border-bottom: 1px solid var(--orket-border);
+  font-size: var(--orket-font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--orket-text-secondary);
+  user-select: none;
+}
+
+.panel__body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--orket-space-md);
+}
+
+.panel__body--no-pad {
+  padding: 0;
+}
+
+/* PrimeVue Splitter overrides for mission control */
+.p-splitter {
+  background: transparent !important;
+  border: none !important;
+}
+
+.p-splitter-gutter {
+  background: var(--orket-border) !important;
+}
+
+.p-splitter-gutter:hover {
+  background: var(--orket-accent-cyan) !important;
+}
+
+.p-splitter-gutter-handle {
+  background: var(--orket-border-active) !important;
+}
+
+.p-splitterpanel {
+  overflow: hidden;
+}

@@ -1,0 +1,77 @@
+:root {
+  /* Base surfaces */
+  --orket-bg-base:       #0a0e14;
+  --orket-bg-panel:      #111620;
+  --orket-bg-surface:    #1a1f2e;
+  --orket-bg-elevated:   #232a3b;
+  --orket-border:        #2a3245;
+  --orket-border-active: #3a4560;
+
+  /* Text hierarchy */
+  --orket-text-primary:   #e8eaf0;
+  --orket-text-secondary: #8892a4;
+  --orket-text-muted:     #4a5568;
+
+  /* Accent colors — neon mission-control */
+  --orket-accent-cyan:    #00d4ff;
+  --orket-accent-green:   #00ff88;
+  --orket-accent-amber:   #ffaa00;
+  --orket-accent-red:     #ff4455;
+  --orket-accent-purple:  #b388ff;
+  --orket-accent-blue:    #448aff;
+
+  /* Status-specific colors */
+  --orket-status-ready:              #448aff;
+  --orket-status-in-progress:        #00d4ff;
+  --orket-status-blocked:            #ff4455;
+  --orket-status-waiting:            #ffaa00;
+  --orket-status-code-review:        #b388ff;
+  --orket-status-guard-review:       #b388ff;
+  --orket-status-guard-approved:     #00ff88;
+  --orket-status-guard-rejected:     #ff4455;
+  --orket-status-guard-changes:      #ffaa00;
+  --orket-status-done:               #00ff88;
+  --orket-status-canceled:           #4a5568;
+  --orket-status-archived:           #3a4560;
+
+  /* Model activity state colors */
+  --orket-activity-reading:  #00d4ff;
+  --orket-activity-thinking: #ffaa00;
+  --orket-activity-writing:  #00ff88;
+  --orket-activity-empty:    #4a5568;
+
+  /* Glow effects */
+  --orket-glow-cyan:   0 0 8px rgba(0, 212, 255, 0.3);
+  --orket-glow-green:  0 0 8px rgba(0, 255, 136, 0.3);
+  --orket-glow-red:    0 0 8px rgba(255, 68, 85, 0.3);
+  --orket-glow-amber:  0 0 8px rgba(255, 170, 0, 0.3);
+  --orket-glow-purple: 0 0 8px rgba(179, 136, 255, 0.3);
+
+  /* Typography */
+  --orket-font-mono:    'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  --orket-font-display: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --orket-font-size-xs:  0.6875rem;  /* 11px */
+  --orket-font-size-sm:  0.75rem;    /* 12px */
+  --orket-font-size-md:  0.8125rem;  /* 13px */
+  --orket-font-size-lg:  0.9375rem;  /* 15px */
+  --orket-font-size-xl:  1.125rem;   /* 18px */
+
+  /* Spacing (dense layout) */
+  --orket-space-xs: 2px;
+  --orket-space-sm: 4px;
+  --orket-space-md: 8px;
+  --orket-space-lg: 12px;
+  --orket-space-xl: 16px;
+
+  /* Panel header */
+  --orket-panel-header-h: 28px;
+
+  /* Transitions */
+  --orket-transition-fast: 150ms ease;
+  --orket-transition-normal: 250ms ease;
+
+  /* Border radius */
+  --orket-radius-sm: 3px;
+  --orket-radius-md: 6px;
+  --orket-radius-lg: 8px;
+}

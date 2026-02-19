@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.claude/
+.env
+.env.*
+!.env.example
+*.local
+.DS_Store
+*.tsbuildinfo
+tmp-cookie.txt
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+client/dist/
+server/dist/
