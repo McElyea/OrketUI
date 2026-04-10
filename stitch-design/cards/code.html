@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&amp;family=Manrope:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-tertiary-container": "#ffb87e",
+                "on-secondary-fixed": "#0f1f16",
+                "background": "#fbf9f5",
+                "on-background": "#1b1c1a",
+                "on-surface-variant": "#3f4944",
+                "secondary-fixed-dim": "#b8cbbd",
+                "on-secondary-fixed-variant": "#3a4b40",
+                "on-primary": "#ffffff",
+                "surface-variant": "#e4e2de",
+                "on-tertiary-fixed": "#2f1500",
+                "on-primary-fixed": "#002116",
+                "secondary-fixed": "#d4e7d9",
+                "primary-fixed": "#a6f2d1",
+                "on-error-container": "#93000a",
+                "surface-dim": "#dbdad6",
+                "on-error": "#ffffff",
+                "inverse-on-surface": "#f2f0ed",
+                "on-surface": "#1b1c1a",
+                "on-tertiary-fixed-variant": "#6e3900",
+                "tertiary": "#5e3000",
+                "on-primary-container": "#8bd6b7",
+                "surface": "#fbf9f5",
+                "on-tertiary": "#ffffff",
+                "secondary": "#516257",
+                "outline": "#6f7973",
+                "on-secondary-container": "#55675b",
+                "surface-tint": "#1b6b51",
+                "surface-container-highest": "#e4e2de",
+                "primary-container": "#065f46",
+                "on-primary-fixed-variant": "#00513b",
+                "outline-variant": "#bec9c2",
+                "primary": "#004532",
+                "surface-container-high": "#eae8e4",
+                "surface-container-low": "#f5f3ef",
+                "inverse-primary": "#8bd6b6",
+                "primary-fixed-dim": "#8bd6b6",
+                "tertiary-fixed": "#ffdcc3",
+                "on-secondary": "#ffffff",
+                "secondary-container": "#d1e4d6",
+                "surface-bright": "#fbf9f5",
+                "error": "#ba1a1a",
+                "surface-container": "#efeeea",
+                "surface-container-lowest": "#ffffff"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "fontFamily": {
+                "headline": ["Newsreader"],
+                "body": ["Manrope"],
+                "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        .serif-text { font-family: 'Newsreader', serif; }
+        .label-text { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-8 py-4 bg-[#fbf9f5] dark:bg-stone-950 z-30">
+<div class="flex items-center gap-12">
+<span class="text-2xl font-serif font-bold text-[#004532] dark:text-emerald-400">Orket</span>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-[#004532] dark:text-emerald-400 border-b-2 border-[#004532] dark:border-emerald-500 pb-1 font-body text-sm font-medium" href="#">Cards</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] font-body text-sm font-medium transition-colors" href="#">Board</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] font-body text-sm font-medium transition-colors" href="#">Runs</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] font-body text-sm font-medium transition-colors" href="#">Inspector</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] font-body text-sm font-medium transition-colors" href="#">Sequencer</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] font-body text-sm font-medium transition-colors" href="#">Prompt Reforger</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative flex items-center bg-surface-container px-3 py-1.5 rounded-sm">
+<span class="material-symbols-outlined text-stone-400 text-sm mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 placeholder-stone-400" placeholder="Search Atelier..." type="text"/>
+</div>
+<button class="p-2 hover:bg-[#f5f3ef] dark:hover:bg-stone-900 transition-colors">
+<span class="material-symbols-outlined text-stone-600 dark:text-stone-400">settings</span>
+</button>
+<button class="p-2 hover:bg-[#f5f3ef] dark:hover:bg-stone-900 transition-colors">
+<span class="material-symbols-outlined text-stone-600 dark:text-stone-400">help</span>
+</button>
+<img alt="User workspace profile" class="w-8 h-8 rounded-full border border-surface-container-highest" data-alt="Close-up portrait of a professional male architect in a studio setting with soft natural morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQeUkHfl5qwQlXGdYUvbwXKbCDZGO04s6Sqw9SLBw84gKRr1yatswdAsOXqnxazgCgRPLz8kxLCvtk60ErqG-1Y-qcTlEWCadzr2jr7Hnei8oyWZzPYS8KHt05OtqVaU04c5Fg9DhERYqYi4ltBOl6smoGHd9WcSUy2OLAvP0fk9bpDYrR1hN38kGdRzQrm5jDHQqR8EtP5lprIewPyQuI3neWKaT17HOPFO0RR_odOZW9o6qtuy1yMRKennB2-Zg9yudpiFJDAZo"/>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar (Collapsed Representation) -->
+<aside class="w-16 flex flex-col items-center py-6 bg-[#f5f3ef] dark:bg-stone-900 border-r border-transparent z-20">
+<div class="flex flex-col gap-8 flex-1">
+<button class="text-[#004532] dark:text-emerald-400" title="Flows">
+<span class="material-symbols-outlined">account_tree</span>
+</button>
+<button class="text-stone-500 dark:text-stone-400 hover:text-[#004532]" title="Epics">
+<span class="material-symbols-outlined">auto_stories</span>
+</button>
+<button class="text-stone-500 dark:text-stone-400 hover:text-[#004532]" title="Artifacts">
+<span class="material-symbols-outlined">history_edu</span>
+</button>
+<button class="text-stone-500 dark:text-stone-400 hover:text-[#004532]" title="Library">
+<span class="material-symbols-outlined">shelves</span>
+</button>
+</div>
+<div class="flex flex-col gap-6">
+<button class="text-stone-400" title="Status"><span class="material-symbols-outlined">query_stats</span></button>
+<button class="text-stone-400" title="History"><span class="material-symbols-outlined">database</span></button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Center Main Card Editor -->
+<section class="flex-1 overflow-y-auto px-12 py-10 bg-surface-bright">
+<div class="max-w-4xl mx-auto space-y-12">
+<!-- Header Section -->
+<div class="space-y-2">
+<div class="flex items-center gap-2 text-primary font-label text-xs tracking-widest uppercase mb-4">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">description</span>
+<span>Card Definition</span>
+</div>
+<input class="w-full serif-text text-5xl font-bold bg-transparent border-none focus:ring-0 p-0 text-on-surface placeholder-surface-variant" placeholder="Untitled Card" type="text" value="Draft Requirements"/>
+<p class="text-secondary font-body text-lg italic">Standardizing product alignment and technical scope.</p>
+</div>
+<!-- Layout Grid for Metadata -->
+<div class="grid grid-cols-3 gap-12 pt-8 border-t border-surface-container">
+<div class="space-y-2">
+<label class="label-text text-xs text-stone-500 uppercase tracking-tighter">Card Kind</label>
+<div class="flex items-center gap-2 text-on-surface font-body font-medium">
+<span class="material-symbols-outlined text-primary text-lg">schema</span>
+<span>Requirements</span>
+</div>
+</div>
+<div class="space-y-2">
+<label class="label-text text-xs text-stone-500 uppercase tracking-tighter">Display Category</label>
+<div class="flex items-center gap-2 text-on-surface font-body font-medium">
+<span class="material-symbols-outlined text-primary text-lg">folder_open</span>
+<span>Core Engineering</span>
+</div>
+</div>
+<div class="space-y-2">
+<label class="label-text text-xs text-stone-500 uppercase tracking-tighter">Output Type</label>
+<div class="flex items-center gap-2 text-on-surface font-body font-medium">
+<span class="material-symbols-outlined text-primary text-lg">article</span>
+<span>requirements_doc</span>
+</div>
+</div>
+</div>
+<!-- Purpose Section -->
+<div class="space-y-4">
+<h3 class="serif-text text-2xl font-semibold">Purpose</h3>
+<textarea class="w-full bg-surface-container-low border-none focus:ring-1 focus:ring-primary-fixed text-on-surface font-body p-4 min-h-[100px] leading-relaxed" placeholder="Describe why this card exists...">This card serves as the foundational logic for extracting functional and non-functional requirements from unstructured product briefs, ensuring technical parity and stakeholder alignment.</textarea>
+</div>
+<!-- Prompt Area (Signature Component Style) -->
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<h3 class="serif-text text-2xl font-semibold">System Prompt</h3>
+<button class="text-primary text-xs font-label uppercase flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm">auto_fix</span> Optimizing
+                            </button>
+</div>
+<div class="bg-surface-container-lowest p-8 border-l-4 border-primary shadow-sm">
+<pre class="font-mono text-sm text-stone-700 whitespace-pre-wrap leading-loose">Act as a Senior Systems Architect. Analyze the following INPUTS and generate a comprehensive 'Requirements Document' that follows the Atelier standard.
+
+## Constraints:
+1. Prioritize scalability and modularity.
+2. Flag any technical contradictions.
+3. Map every feature to an atomic output node.
+
+## Format:
+Use the standard .rk-doc schema with nested YAML for metadata.</pre>
+</div>
+</div>
+<!-- Inputs & Outputs (Asymmetric Layout) -->
+<div class="grid grid-cols-2 gap-16">
+<div class="space-y-6">
+<h3 class="serif-text text-2xl font-semibold border-b border-surface-container pb-2">Inputs</h3>
+<div class="space-y-4">
+<div class="p-4 bg-surface-container-low flex justify-between items-center group">
+<span class="font-body font-medium text-on-surface">product_brief</span>
+<span class="label-text text-[10px] bg-surface-container-highest px-2 py-0.5 text-stone-600">STRING</span>
+</div>
+<div class="p-4 bg-surface-container-low flex justify-between items-center group">
+<span class="font-body font-medium text-on-surface">tech_constraints</span>
+<span class="label-text text-[10px] bg-surface-container-highest px-2 py-0.5 text-stone-600">JSON</span>
+</div>
+<button class="w-full py-3 border border-dashed border-outline-variant text-stone-400 font-label text-xs uppercase hover:bg-surface-container-low transition-colors">
+                                    + Add Input
+                                </button>
+</div>
+</div>
+<div class="space-y-6">
+<h3 class="serif-text text-2xl font-semibold border-b border-surface-container pb-2">Outputs</h3>
+<div class="space-y-4">
+<div class="p-4 bg-surface-container-low flex justify-between items-center">
+<span class="font-body font-medium text-on-surface">requirements_manifest</span>
+<span class="label-text text-[10px] bg-primary text-on-primary px-2 py-0.5">ORKET-DOC</span>
+</div>
+<button class="w-full py-3 border border-dashed border-outline-variant text-stone-400 font-label text-xs uppercase hover:bg-surface-container-low transition-colors">
+                                    + Add Output
+                                </button>
+</div>
+</div>
+</div>
+<!-- Additional Details -->
+<div class="grid grid-cols-2 gap-16 pt-8">
+<div class="space-y-4">
+<h3 class="serif-text text-xl font-semibold">Notes</h3>
+<p class="text-stone-500 font-body text-sm leading-relaxed">
+                                Used primarily in the 'Concept to Code' Epic. Ensure the prompt is updated if the LLM provider shifts from Claude 3.5 to GPT-4o due to token limits.
+                            </p>
+</div>
+<div class="space-y-4">
+<h3 class="serif-text text-xl font-semibold">Approval Expectation</h3>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">verified_user</span>
+<span class="font-body text-sm font-medium">Peer Review + Architectural Sign-off</span>
+</div>
+</div>
+</div>
+<div class="h-20"></div>
+</div>
+</section>
+<!-- Right Summary/Validation Panel -->
+<aside class="w-80 bg-surface-container-low border-l border-transparent px-6 py-10 space-y-10 overflow-y-auto">
+<div>
+<h4 class="label-text text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-6">Live Validation</h4>
+<div class="space-y-4">
+<div class="flex items-start gap-3 p-3 bg-surface-container-highest/50 border-l-2 border-primary">
+<span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+<div>
+<p class="text-xs font-bold text-on-surface">Card Ready</p>
+<p class="text-[10px] text-stone-500">All mandatory fields are populated.</p>
+</div>
+</div>
+<div class="flex items-start gap-3 p-3 bg-surface-container-highest/50 border-l-2 border-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined text-tertiary text-lg">warning</span>
+<div>
+<p class="text-xs font-bold text-on-surface">Token Estimate High</p>
+<p class="text-[10px] text-stone-500">System prompt exceeds 1k tokens.</p>
+</div>
+</div>
+</div>
+</div>
+<div>
+<h4 class="label-text text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-6">Dependencies</h4>
+<div class="space-y-3">
+<div class="flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+<span class="text-xs font-medium text-stone-700 font-body">Product Strategy Flow</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+<span class="text-xs font-medium text-stone-700 font-body">Tech Stack Matrix</span>
+</div>
+</div>
+</div>
+<div>
+<h4 class="label-text text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-6">Usage Map</h4>
+<div class="rounded-sm overflow-hidden h-32 bg-surface-container-highest relative group">
+<div class="absolute inset-0 bg-primary/5 group-hover:bg-primary/0 transition-colors"></div>
+<img alt="Usage graph preview" class="w-full h-full object-cover" data-alt="Abstract visualization of nodes and connecting lines in a digital network with emerald and cream tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC9p0zougtvnomoLqejnBA5t72qFZE6aqaRIbu10EYyp_naMIOOKwVeEJQdEkZdA8oQ-O8bhmAsHuZznoDdRr1sXKymI252NUrNtim3rUta-tNpAFOjm9SPeBIUJ7w1QS0hV9dciLqisaueXITT7hsPa8ZxhO3HxjjdrCXzdmuOkJlIlwsIIsCa_E7DOOYfcyyMf3_2_Qwad5WyB2KV7wXAZRNJ0kF_9Ret4y6fMX4XaeNG7-NhtyE1aU1wRI312lBKdPJlbDd10Q"/>
+</div>
+</div>
+<div class="pt-10">
+<button class="w-full py-4 bg-primary text-on-primary font-label text-sm font-semibold tracking-wide hover:opacity-90 transition-opacity flex justify-center items-center gap-2">
+<span>Save &amp; Commit Artifact</span>
+</button>
+<button class="w-full mt-3 py-4 border border-outline text-primary font-label text-sm font-semibold tracking-wide hover:bg-white transition-colors">
+                        Discard Draft
+                    </button>
+</div>
+</aside>
+</main>
+</div>
+</body></html>

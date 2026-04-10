@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Orket | Board</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Manrope:wght@200..800&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#ffb87e",
+                    "on-secondary-fixed": "#0f1f16",
+                    "background": "#fbf9f5",
+                    "on-background": "#1b1c1a",
+                    "on-surface-variant": "#3f4944",
+                    "secondary-fixed-dim": "#b8cbbd",
+                    "on-secondary-fixed-variant": "#3a4b40",
+                    "on-primary": "#ffffff",
+                    "surface-variant": "#e4e2de",
+                    "on-tertiary-fixed": "#2f1500",
+                    "on-primary-fixed": "#002116",
+                    "secondary-fixed": "#d4e7d9",
+                    "primary-fixed": "#a6f2d1",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#dbdad6",
+                    "on-error": "#ffffff",
+                    "inverse-on-surface": "#f2f0ed",
+                    "on-surface": "#1b1c1a",
+                    "on-tertiary-fixed-variant": "#6e3900",
+                    "tertiary": "#5e3000",
+                    "on-primary-container": "#8bd6b7",
+                    "surface": "#fbf9f5",
+                    "on-tertiary": "#ffffff",
+                    "secondary": "#516257",
+                    "outline": "#6f7973",
+                    "on-secondary-container": "#55675b",
+                    "surface-tint": "#1b6b51",
+                    "surface-container-highest": "#e4e2de",
+                    "primary-container": "#065f46",
+                    "on-primary-fixed-variant": "#00513b",
+                    "outline-variant": "#bec9c2",
+                    "primary": "#004532",
+                    "surface-container-high": "#eae8e4",
+                    "surface-container-low": "#f5f3ef",
+                    "inverse-primary": "#8bd6b6",
+                    "primary-fixed-dim": "#8bd6b6",
+                    "tertiary-fixed": "#ffdcc3",
+                    "on-secondary": "#ffffff",
+                    "secondary-container": "#d1e4d6",
+                    "surface-bright": "#fbf9f5",
+                    "error": "#ba1a1a",
+                    "surface-container": "#efeeea",
+                    "surface-container-lowest": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Newsreader", "serif"],
+                    "body": ["Manrope", "sans-serif"],
+                    "label": ["Inter", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        .font-serif { font-family: 'Newsreader', serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col overflow-hidden">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-8 py-4 bg-[#fbf9f5] dark:bg-stone-950 z-30">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-serif font-bold text-[#004532] dark:text-emerald-400">Orket</span>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] font-sans text-sm font-medium" href="#">Cards</a>
+<a class="text-[#004532] dark:text-emerald-400 border-b-2 border-[#004532] dark:border-emerald-500 pb-1 font-sans text-sm font-semibold" href="#">Board</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] font-sans text-sm font-medium" href="#">Runs</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] font-sans text-sm font-medium" href="#">Inspector</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] font-sans text-sm font-medium" href="#">Sequencer</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] font-sans text-sm font-medium" href="#">Prompt Reforger</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="bg-surface-container-low px-3 py-1.5 rounded-sm flex items-center gap-2 border border-outline-variant/20">
+<span class="material-symbols-outlined text-stone-500 text-sm">search</span>
+<input class="bg-transparent border-none text-xs focus:ring-0 placeholder:text-stone-400 w-48" placeholder="Search boards..." type="text"/>
+</div>
+<button class="hover:bg-[#f5f3ef] p-2 rounded-full transition-colors"><span class="material-symbols-outlined text-stone-600" data-icon="settings">settings</span></button>
+<button class="hover:bg-[#f5f3ef] p-2 rounded-full transition-colors"><span class="material-symbols-outlined text-stone-600" data-icon="help">help</span></button>
+<img alt="User workspace profile" class="w-8 h-8 rounded-sm object-cover grayscale opacity-80" data-alt="professional profile headshot of a minimalist designer soft studio lighting earth tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCwUXoKAPBiQRS_Gmf-Kb1MHnuD2aFlL6ZO50C3q0Ya4KXvXHNpcSAQFGPcqlu01i-uwUldh5B3ITDXvYe1QEAJLvzuURwXN_aH6fLp_x_kRId75lpxJVU-UmOaHut0c_cbYg9C8vcW1vcsMy7EcOBNrUtOOiQPAbLai8H-zU2YeyCJdIi8hAd0WpNmsv__4Wz3s8YDMh3fkuMOgV75oHfavBr17rftWVZTNRehXpGVlMNK1OEju58IC8Dov5BxHRYYHr10B9euXM"/>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar (Collapsed/Rail Style) -->
+<aside class="flex flex-col h-full w-16 bg-[#f5f3ef] dark:bg-stone-900 border-r border-transparent z-20 items-center py-6 gap-8">
+<div class="flex flex-col gap-6">
+<div class="group relative flex items-center justify-center">
+<span class="material-symbols-outlined text-[#004532] dark:text-emerald-400 font-semibold cursor-pointer" data-icon="account_tree">account_tree</span>
+<span class="absolute left-14 bg-on-surface text-surface text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Flows</span>
+</div>
+<div class="group relative flex items-center justify-center">
+<span class="material-symbols-outlined text-stone-500 dark:text-stone-400 hover:text-[#004532] cursor-pointer" data-icon="auto_stories">auto_stories</span>
+</div>
+<div class="group relative flex items-center justify-center">
+<span class="material-symbols-outlined text-stone-500 dark:text-stone-400 hover:text-[#004532] cursor-pointer" data-icon="history_edu">history_edu</span>
+</div>
+<div class="group relative flex items-center justify-center">
+<span class="material-symbols-outlined text-stone-500 dark:text-stone-400 hover:text-[#004532] cursor-pointer" data-icon="shelves">shelves</span>
+</div>
+</div>
+<div class="mt-auto flex flex-col gap-6">
+<span class="material-symbols-outlined text-stone-400 text-lg hover:text-primary cursor-pointer" data-icon="query_stats">query_stats</span>
+<span class="material-symbols-outlined text-stone-400 text-lg hover:text-primary cursor-pointer" data-icon="database">database</span>
+<span class="material-symbols-outlined text-stone-400 text-lg hover:text-primary cursor-pointer" data-icon="grid_view">grid_view</span>
+</div>
+</aside>
+<!-- Main Kanban Board Area -->
+<main class="flex-1 flex flex-col overflow-hidden bg-surface">
+<!-- Board Header -->
+<div class="px-8 pt-8 pb-4">
+<div class="flex items-end gap-3 mb-1">
+<h1 class="text-4xl font-serif font-semibold text-primary">Orket UI Requirements</h1>
+<span class="text-xs font-label text-stone-400 mb-1.5 uppercase tracking-widest">Epic #104</span>
+</div>
+<p class="text-stone-500 font-body text-sm max-w-2xl">Definition and refinement of the core user interface architecture, focusing on the editorial design system and workspace flow patterns.</p>
+</div>
+<!-- Board Columns -->
+<div class="flex-1 overflow-x-auto no-scrollbar flex gap-8 p-8 items-start">
+<!-- Column: Intent -->
+<div class="w-80 flex-shrink-0 flex flex-col h-full">
+<div class="flex items-center justify-between mb-4 px-1">
+<h3 class="font-serif text-lg font-medium text-stone-800">Intent</h3>
+<span class="text-[10px] font-label font-bold bg-surface-container-high px-2 py-0.5 rounded-full text-stone-600">3</span>
+</div>
+<div class="flex flex-col gap-4 overflow-y-auto no-scrollbar pb-8">
+<div class="bg-surface-container-lowest border border-outline-variant/10 p-5 rounded shadow-sm hover:shadow-md transition-shadow group cursor-grab">
+<div class="flex justify-between items-start mb-3">
+<span class="text-[10px] font-label text-stone-400 uppercase tracking-tighter">Draft</span>
+<span class="material-symbols-outlined text-stone-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity">drag_indicator</span>
+</div>
+<h4 class="font-body font-semibold text-stone-900 mb-2 leading-tight">Define Interaction Grammar</h4>
+<p class="text-xs text-stone-500 line-clamp-2">Standardizing the spatial movement of nodes during active run states.</p>
+<div class="mt-4 flex items-center gap-2">
+<div class="w-4 h-4 bg-primary-container rounded-full flex items-center justify-center">
+<span class="text-[8px] text-white font-bold">M</span>
+</div>
+<span class="text-[10px] text-stone-400 font-label">2 days ago</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant/10 p-5 rounded shadow-sm hover:shadow-md transition-shadow group cursor-grab">
+<div class="flex justify-between items-start mb-3">
+<span class="text-[10px] font-label text-stone-400 uppercase tracking-tighter">Research</span>
+</div>
+<h4 class="font-body font-semibold text-stone-900 mb-2 leading-tight">Atmospheric Benchmarking</h4>
+<p class="text-xs text-stone-500 line-clamp-2">Competitive analysis of low-fatigue dashboard layouts.</p>
+</div>
+</div>
+</div>
+<!-- Column: Definition -->
+<div class="w-80 flex-shrink-0 flex flex-col h-full">
+<div class="flex items-center justify-between mb-4 px-1">
+<h3 class="font-serif text-lg font-medium text-stone-800">Definition</h3>
+<span class="text-[10px] font-label font-bold bg-primary text-white px-2 py-0.5 rounded-full">1 ACTIVE</span>
+</div>
+<div class="flex flex-col gap-4 overflow-y-auto no-scrollbar pb-8">
+<div class="bg-white border-2 border-primary/20 p-5 rounded shadow-sm relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2">
+<span class="flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+</span>
+</div>
+<div class="flex justify-between items-start mb-3">
+<span class="text-[10px] font-label text-primary font-bold uppercase tracking-tighter">Drafting</span>
+</div>
+<h4 class="font-body font-semibold text-stone-900 mb-2 leading-tight">Draft Requirements</h4>
+<p class="text-xs text-stone-600 leading-relaxed mb-4">Translating high-level atelier vision into functional component specs.</p>
+<div class="bg-primary/5 p-2 rounded-sm border border-primary/10 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">description</span>
+<span class="text-[10px] font-label text-primary font-semibold">requirements.md</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant/10 p-5 rounded opacity-60">
+<h4 class="font-body font-semibold text-stone-900 mb-2 leading-tight">Visual Mapping</h4>
+<p class="text-xs text-stone-500 line-clamp-2">Sketching the tonal shifts for elevation levels.</p>
+</div>
+</div>
+</div>
+<!-- Column: Critique -->
+<div class="w-80 flex-shrink-0 flex flex-col h-full">
+<div class="flex items-center justify-between mb-4 px-1">
+<h3 class="font-serif text-lg font-medium text-stone-800">Critique</h3>
+<span class="text-[10px] font-label font-bold bg-surface-container-high px-2 py-0.5 rounded-full text-stone-600">0</span>
+</div>
+<div class="flex flex-col gap-4 p-8 border-2 border-dashed border-stone-200 rounded-lg h-32 items-center justify-center text-stone-400">
+<span class="material-symbols-outlined text-2xl mb-1">move_to_inbox</span>
+<span class="text-xs font-label uppercase tracking-widest">Drop Here</span>
+</div>
+</div>
+<!-- Column: Artifact -->
+<div class="w-80 flex-shrink-0 flex flex-col h-full">
+<div class="flex items-center justify-between mb-4 px-1">
+<h3 class="font-serif text-lg font-medium text-stone-800">Artifact</h3>
+<span class="text-[10px] font-label font-bold bg-surface-container-high px-2 py-0.5 rounded-full text-stone-600">4</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Right Side Active Run Drawer -->
+<aside class="w-96 h-full bg-[#f5f3ef] border-l border-outline-variant/20 flex flex-col z-20">
+<!-- Header -->
+<div class="p-6 border-b border-outline-variant/10">
+<div class="flex items-center justify-between mb-2">
+<h2 class="font-serif text-xl font-bold text-primary">Active Run</h2>
+<span class="text-[10px] font-label bg-primary/10 text-primary px-2 py-0.5 rounded-sm">RUN_ID: 99x41</span>
+</div>
+<p class="text-xs text-stone-500 font-label italic uppercase tracking-wider">Workspace: Atelier V1</p>
+</div>
+<!-- Current Phase Info -->
+<div class="flex-1 overflow-y-auto no-scrollbar p-6">
+<!-- Status Card -->
+<div class="bg-white p-5 rounded border border-outline-variant/20 shadow-sm mb-6">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 bg-primary rounded-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<div>
+<p class="text-[10px] font-label text-stone-400 uppercase">Phase</p>
+<h4 class="font-serif font-bold text-stone-900 leading-tight">Requirement Synthesis</h4>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between text-[11px]">
+<span class="text-stone-500">Current Task:</span>
+<span class="font-semibold text-stone-800">Draft Requirements</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[65%]"></div>
+</div>
+</div>
+</div>
+<!-- Navigation Context -->
+<div class="grid grid-cols-2 gap-3 mb-8">
+<div class="p-3 bg-surface-container-lowest border border-stone-200/50 rounded flex flex-col gap-1">
+<span class="text-[9px] font-label text-stone-400 uppercase">Previous</span>
+<span class="text-[11px] font-semibold text-stone-700 truncate">Benchmarking...</span>
+</div>
+<div class="p-3 bg-surface-container-lowest border border-stone-200/50 rounded flex flex-col gap-1">
+<span class="text-[9px] font-label text-stone-400 uppercase">Next</span>
+<span class="text-[11px] font-semibold text-stone-700 truncate">Critique Req...</span>
+</div>
+</div>
+<!-- Epic Artifacts (Awareness) -->
+<div class="mb-8">
+<div class="flex items-center justify-between mb-4">
+<h5 class="text-[10px] font-label font-bold text-stone-500 uppercase tracking-widest">Recent Artifacts</h5>
+<span class="material-symbols-outlined text-stone-400 text-sm">open_in_new</span>
+</div>
+<ul class="space-y-3">
+<li class="group flex items-center justify-between p-2 rounded-sm hover:bg-white transition-colors cursor-pointer border border-transparent hover:border-outline-variant/20">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-stone-400 text-sm">description</span>
+<span class="text-xs font-body text-stone-700">requirements.md</span>
+</div>
+<span class="text-[9px] text-stone-400 font-label">12m ago</span>
+</li>
+<li class="group flex items-center justify-between p-2 rounded-sm hover:bg-white transition-colors cursor-pointer border border-transparent hover:border-outline-variant/20">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-stone-400 text-sm">architecture</span>
+<span class="text-xs font-body text-stone-700">critique.md</span>
+</div>
+<span class="text-[9px] text-stone-400 font-label">2h ago</span>
+</li>
+<li class="group flex items-center justify-between p-2 rounded-sm hover:bg-white transition-colors cursor-pointer border border-transparent hover:border-outline-variant/20">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-stone-400 text-sm">image</span>
+<span class="text-xs font-body text-stone-700">canvas_v01.png</span>
+</div>
+<span class="text-[9px] text-stone-400 font-label">4h ago</span>
+</li>
+</ul>
+</div>
+<!-- Run Summary -->
+<div class="bg-primary/5 p-5 rounded-lg border border-primary/10">
+<h5 class="text-[10px] font-label font-bold text-primary uppercase tracking-widest mb-3">Run Summary</h5>
+<p class="text-xs text-primary/80 leading-relaxed font-body">Current run is focusing on structural integrity. Synthesis is currently merging architectural specs with design constraints.</p>
+</div>
+</div>
+<!-- Action Area -->
+<div class="p-6 mt-auto">
+<button class="w-full bg-primary text-white py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-sm">play_arrow</span>
+                    Advance Run
+                </button>
+</div>
+</aside>
+</div>
+<!-- Mobile Navigation (Suppressed based on rules but kept for responsiveness check if needed) -->
+<div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-outline-variant/10 flex justify-around py-3 px-6 z-50">
+<span class="material-symbols-outlined text-primary" data-icon="account_tree">account_tree</span>
+<span class="material-symbols-outlined text-stone-400" data-icon="auto_stories">auto_stories</span>
+<span class="material-symbols-outlined text-stone-400" data-icon="history_edu">history_edu</span>
+<span class="material-symbols-outlined text-stone-400" data-icon="shelves">shelves</span>
+</div>
+</body></html>

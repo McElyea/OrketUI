@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Orket | System Architect Prototype</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/history@5/umd/history.development.js"></script>
+    <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.development.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#ffb87e",
+                        "on-secondary-fixed": "#0f1f16",
+                        "background": "#fbf9f5",
+                        "on-background": "#1b1c1a",
+                        "on-surface-variant": "#3f4944",
+                        "secondary-fixed-dim": "#b8cbbd",
+                        "on-secondary-fixed-variant": "#3a4b40",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e4e2de",
+                        "on-tertiary-fixed": "#2f1500",
+                        "on-primary-fixed": "#002116",
+                        "secondary-fixed": "#d4e7d9",
+                        "primary-fixed": "#a6f2d1",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#dbdad6",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f2f0ed",
+                        "on-surface": "#1b1c1a",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "tertiary": "#5e3000",
+                        "on-primary-container": "#8bd6b7",
+                        "surface": "#fbf9f5",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#516257",
+                        "outline": "#6f7973",
+                        "on-secondary-container": "#55675b",
+                        "surface-tint": "#1b6b51",
+                        "surface-container-highest": "#e4e2de",
+                        "primary-container": "#065f46",
+                        "on-primary-fixed-variant": "#00513b",
+                        "outline-variant": "#bec9c2",
+                        "primary": "#004532",
+                        "surface-container-high": "#eae8e4",
+                        "surface-container-low": "#f5f3ef",
+                        "inverse-primary": "#8bd6b6",
+                        "primary-fixed-dim": "#8bd6b6",
+                        "tertiary-fixed": "#ffdcc3",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#d1e4d6",
+                        "surface-bright": "#fbf9f5",
+                        "error": "#ba1a1a",
+                        "surface-container": "#efeeea",
+                        "surface-container-lowest": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Newsreader"],
+                        "body": ["Manrope"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body { font-family: 'Manrope', sans-serif; background-color: #fbf9f5; }
+        .font-serif { font-family: 'Newsreader', serif; }
+        .font-sans { font-family: 'Manrope', sans-serif; }
+        .font-label { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+        .canvas-grid {
+            background-image: radial-gradient(#e4e2de 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #fbf9f5; }
+        ::-webkit-scrollbar-thumb { background: #e4e2de; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+        const { MemoryRouter, Routes, Route, Link, useNavigate, useLocation } = ReactRouterDOM;
+
+        // --- Common Components ---
+
+        const TopNavBar = ({ active }) => {
+            const navItems = [
+                { name: 'Cards', path: '/' },
+                { name: 'Board', path: '/board' },
+                { name: 'Runs', path: '/runs' },
+                { name: 'Inspector', path: '/inspector' },
+                { name: 'Sequencer', path: '/sequencer' },
+                { name: 'Prompt Reforger', path: '/reforger' },
+            ];
+
+            return (
+                <header class="flex justify-between items-center w-full px-8 py-4 bg-[#fbf9f5] dark:bg-stone-950 sticky top-0 z-50 border-b border-surface-variant/20">
+                    <div class="flex items-center gap-8">
+                        <span class="text-2xl font-serif font-bold text-[#004532] dark:text-emerald-400">Orket</span>
+                        <nav class="hidden md:flex items-center gap-6">
+                            {navItems.map(item => (
+                                <Link 
+                                    key={item.name}
+                                    to={item.path} 
+                                    className={`${active === item.name ? 'text-[#004532] dark:text-emerald-400 border-b-2 border-[#004532] dark:border-emerald-500 pb-1' : 'text-stone-500 dark:text-stone-400 hover:text-[#004532]'} font-sans text-sm font-medium`}
+                                >
+                                    {item.name}
+                                </Link>
+                            ))}
+                        </nav>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="bg-surface-container-low px-3 py-1.5 flex items-center gap-2 rounded-sm border border-outline-variant/20">
+                            <span class="material-symbols-outlined text-sm text-stone-500">search</span>
+                            <input class="bg-transparent border-none focus:ring-0 text-sm font-sans w-48" placeholder="Search workspace..." type="text"/>
+                        </div>
+                        <button class="p-2 hover:bg-[#f5f3ef] transition-colors rounded-sm">
+                            <span class="material-symbols-outlined text-stone-600">settings</span>
+                        </button>
+                        <button class="p-2 hover:bg-[#f5f3ef] transition-colors rounded-sm">
+                            <span class="material-symbols-outlined text-stone-600">help</span>
+                        </button>
+                        <div class="w-8 h-8 rounded-full overflow-hidden ml-2 bg-stone-200">
+                            <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVPchSlQPyds5eODJsoXl3AANfmgDdKOussIK1_qIrkwSWpYiLWGZLRiA7kTshLU_-KSbFU3jKiObkd7_gdFh-Tc5-cPfkVl317caOPoUvIFWb92SboQFBFtkLLUekOLkv7yMoXkGyj-mY5QtokixPZpljUEVePPeTdhsQVtaOe_aTik3i3O8cdYILqlclpuDVoWDtaCRteZFV6VsQwt0T7QFbpCdSlLi9Xjyrd_K7a4TYV2e1pPaLhCek1UENdxGS5FTuojRL18k" />
+                        </div>
+                    </div>
+                </header>
+            );
+        };
+
+        const RailSideBar = () => {
+            return (
+                <aside class="flex flex-col h-full w-20 bg-[#f5f3ef] dark:bg-stone-900 border-r border-transparent items-center py-6 gap-8">
+                    <div class="flex flex-col gap-6">
+                        <div class="group relative flex justify-center">
+                            <span class="material-symbols-outlined text-stone-500 hover:text-[#004532] cursor-pointer text-2xl">account_tree</span>
+                        </div>
+                        <div class="group relative flex justify-center text-primary">
+                            <span class="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>auto_stories</span>
+                        </div>
+                        <div class="group relative flex justify-center">
+                            <span class="material-symbols-outlined text-stone-500 hover:text-[#004532] cursor-pointer text-2xl">history_edu</span>
+                        </div>
+                        <div class="group relative flex justify-center">
+                            <span class="material-symbols-outlined text-stone-500 hover:text-[#004532] cursor-pointer text-2xl">shelves</span>
+                        </div>
+                    </div>
+                    <div class="mt-auto flex flex-col gap-6">
+                        <span class="material-symbols-outlined text-stone-400 hover:text-primary cursor-pointer transition-colors">query_stats</span>
+                        <span class="material-symbols-outlined text-stone-400 hover:text-primary cursor-pointer transition-colors">database</span>
+                        <span class="material-symbols-outlined text-stone-400 hover:text-primary cursor-pointer transition-colors">grid_view</span>
+                    </div>
+                </aside>
+            );
+        };
+
+        // --- Screen 1: Sequencer ---
+        const SequencerScreen = () => {
+            return (
+                <div class="flex flex-col h-screen overflow-hidden">
+                    <TopNavBar active="Sequencer" />
+                    <div class="flex flex-1 overflow-hidden">
+                        <aside class="flex flex-col h-full w-64 bg-[#f5f3ef] dark:bg-stone-900 border-r border-transparent">
+                            <div class="p-6">
+                                <div class="flex items-center gap-3 mb-6">
+                                    <div class="w-10 h-10 bg-primary flex items-center justify-center rounded-sm text-on-primary">
+                                        <span class="material-symbols-outlined">account_tree</span>
+                                    </div>
+                                    <div>
+                                        <h2 class="font-sans font-semibold text-sm text-primary tracking-tight">The Atelier</h2>
+                                        <p class="font-sans text-xs text-stone-500">System Architect</p>
+                                    </div>
+                                </div>
+                                <nav class="space-y-1">
+                                    {['Flows', 'Epics', 'Artifacts', 'Library'].map(item => (
+                                        <a key={item} class="flex items-center gap-3 px-3 py-2 text-stone-500 hover:text-[#004532] transition-all font-sans font-medium text-sm" href="#">
+                                            <span class="material-symbols-outlined text-[20px]">{item === 'Flows' ? 'account_tree' : item === 'Epics' ? 'auto_stories' : item === 'Artifacts' ? 'history_edu' : 'shelves'}</span>
+                                            <span>{item}</span>
+                                        </a>
+                                    ))}
+                                </nav>
+                            </div>
+                            <div class="mt-auto p-4 border-t border-outline-variant/20 bg-surface-container-high/30">
+                                <p class="text-[10px] font-label font-semibold text-stone-400 uppercase tracking-widest mb-4 px-2">Palette</p>
+                                <div class="grid grid-cols-2 gap-2">
+                                    {[
+                                        {icon: 'assignment', label: 'Requirement', color: 'text-primary'},
+                                        {icon: 'code', label: 'Code', color: 'text-primary'},
+                                        {icon: 'rate_review', label: 'Critique', color: 'text-tertiary'},
+                                        {icon: 'verified', label: 'Approval', color: 'text-emerald-600'},
+                                        {icon: 'call_split', label: 'Branch', color: 'text-stone-500'},
+                                        {icon: 'call_merge', label: 'Merge', color: 'text-stone-500'},
+                                        {icon: 'play_circle', label: 'Start', color: 'text-primary-container'},
+                                        {icon: 'stop_circle', label: 'Final', color: 'text-error'}
+                                    ].map(tool => (
+                                        <div key={tool.label} class="group cursor-pointer p-2 bg-surface-container-lowest border border-outline-variant/10 rounded-sm hover:border-primary/40 transition-all flex flex-col items-center gap-1">
+                                            <span class={`material-symbols-outlined ${tool.color} text-[20px]`}>{tool.icon}</span>
+                                            <span class="text-[10px] font-label font-medium">{tool.label}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </aside>
+                        <main class="flex-1 relative bg-surface canvas-grid overflow-hidden">
+                            <div class="absolute top-6 left-8">
+                                <h1 class="font-serif text-3xl text-primary font-bold">Project Alpha</h1>
+                                <p class="font-sans text-sm text-stone-500 mt-1">Architecture Flow • Last saved 2m ago</p>
+                            </div>
+                            <div class="absolute top-6 right-8 flex gap-3">
+                                <button class="bg-surface-container-lowest border border-outline-variant/30 px-4 py-2 rounded-sm text-sm font-sans font-medium flex items-center gap-2 hover:bg-surface-container-low transition-colors">
+                                    <span class="material-symbols-outlined text-[18px]">zoom_in</span> 100%
+                                </button>
+                                <button class="bg-surface-container-lowest border border-outline-variant/30 px-4 py-2 rounded-sm text-sm font-sans font-medium flex items-center gap-2 hover:bg-surface-container-low transition-colors">
+                                    <span class="material-symbols-outlined text-[18px]">layers</span> Layers
+                                </button>
+                            </div>
+                            <div class="absolute inset-0 flex items-center justify-center p-20">
+                                <div class="relative w-full h-full max-w-5xl">
+                                    <div class="absolute top-1/2 left-0 -translate-y-1/2 flex items-center">
+                                        <div class="p-4 bg-surface-container-lowest border-2 border-primary/20 rounded-sm shadow-sm w-32 text-center">
+                                            <span class="material-symbols-outlined text-primary mb-1">play_circle</span>
+                                            <p class="text-xs font-bold font-sans uppercase tracking-tighter">Start</p>
+                                        </div>
+                                        <div class="w-16 h-0.5 bg-outline-variant/40 relative">
+                                            <div class="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-outline-variant rotate-45"></div>
+                                        </div>
+                                    </div>
+                                    <div class="absolute top-1/2 left-48 -translate-y-1/2 flex items-center">
+                                        <div class="p-5 bg-surface-container-lowest border-2 border-primary rounded-sm shadow-xl w-64 ring-4 ring-primary/5">
+                                            <div class="flex justify-between items-start mb-3">
+                                                <span class="bg-primary/10 text-primary px-2 py-0.5 rounded-sm text-[10px] font-bold font-sans">REQ-01</span>
+                                                <span class="material-symbols-outlined text-primary text-[18px]">assignment</span>
+                                            </div>
+                                            <h3 class="font-serif text-lg leading-tight mb-2">Core API Spec</h3>
+                                            <p class="text-xs text-stone-500 font-sans line-clamp-2">Define the primary endpoint structures and authentication protocols for Alpha.</p>
+                                        </div>
+                                        <div class="w-24 h-0.5 bg-primary relative">
+                                            <div class="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-primary rotate-45"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </main>
+                        <aside class="w-80 h-full bg-[#fbf9f5] border-l border-outline-variant/10 flex flex-col">
+                            <div class="p-6 border-b border-outline-variant/10">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="material-symbols-outlined text-primary text-sm">assignment</span>
+                                    <span class="font-label text-[10px] font-bold text-stone-400 uppercase tracking-widest">Requirement Card</span>
+                                </div>
+                                <h2 class="font-serif text-2xl font-bold text-primary">Core API Spec</h2>
+                            </div>
+                            <div class="flex-1 overflow-y-auto p-6 space-y-8">
+                                <section>
+                                    <label class="font-sans text-[11px] font-bold text-stone-400 uppercase tracking-wider block mb-2">Category</label>
+                                    <div class="flex gap-2">
+                                        <span class="px-2 py-1 bg-[#d4e7d9] text-[#004532] text-[10px] font-bold rounded-sm uppercase">Infrastructure</span>
+                                        <span class="px-2 py-1 bg-surface-container-highest text-stone-600 text-[10px] font-bold rounded-sm uppercase">High Priority</span>
+                                    </div>
+                                </section>
+                                <section>
+                                    <label class="font-sans text-[11px] font-bold text-stone-400 uppercase tracking-wider block mb-2">Notes</label>
+                                    <textarea class="w-full bg-surface-container-low border-none focus:ring-1 focus:ring-primary text-sm font-sans rounded-sm h-24 placeholder:text-stone-300" placeholder="Add architectural notes..."></textarea>
+                                </section>
+                            </div>
+                            <div class="p-6 bg-surface-container-low border-t border-outline-variant/20 space-y-3">
+                                <button class="w-full py-3 border border-primary text-primary font-sans text-sm font-bold rounded-sm hover:bg-primary/5 transition-colors">Validate Flow</button>
+                                <button class="w-full py-3 bg-primary text-on-primary font-sans text-sm font-bold rounded-sm hover:bg-[#003628] transition-colors flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-[18px]">play_arrow</span> Run Flow
+                                </button>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- Screen 2: Reforger ---
+        const ReforgerScreen = () => {
+            return (
+                <div class="flex flex-col h-screen overflow-hidden">
+                    <TopNavBar active="Prompt Reforger" />
+                    <div class="flex flex-1 overflow-hidden">
+                        <aside class="flex flex-col h-full bg-[#f5f3ef] dark:bg-stone-900 w-20 border-r border-transparent items-center py-6 space-y-8">
+                            <span class="material-symbols-outlined text-stone-500">account_tree</span>
+                            <span class="material-symbols-outlined text-stone-500">auto_stories</span>
+                            <span class="material-symbols-outlined text-primary font-semibold" style={{ fontVariationSettings: "'FILL' 1" }}>history_edu</span>
+                            <span class="material-symbols-outlined text-stone-500">shelves</span>
+                        </aside>
+                        <main class="flex-1 flex overflow-hidden">
+                            <section class="flex-1 p-12 overflow-y-auto bg-surface border-r border-surface-container-highest">
+                                <div class="max-w-5xl mx-auto space-y-12">
+                                    <header class="space-y-2">
+                                        <h1 class="text-4xl font-serif text-on-background tracking-tight">Prompt Reforger</h1>
+                                        <p class="text-sm font-label text-on-surface-variant uppercase tracking-widest font-medium">Refining Task: Financial Analyst Persona</p>
+                                    </header>
+                                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                                        <div class="space-y-6">
+                                            <h3 class="text-lg font-serif italic text-on-surface">Source Prompt</h3>
+                                            <div class="p-8 bg-surface-container-low rounded-lg min-h-[400px] shadow-sm border border-outline-variant/10">
+                                                <p class="font-body text-sm leading-relaxed text-on-surface-variant">Act as a highly experienced financial analyst with 20 years of experience on Wall Street. I want you to look at the provided quarterly earnings report and give me a detailed summary...</p>
+                                            </div>
+                                        </div>
+                                        <div class="space-y-6">
+                                            <h3 class="text-lg font-serif italic text-primary">Candidate Variant 01</h3>
+                                            <div class="p-8 bg-surface-container-lowest rounded-lg min-h-[400px] shadow-md border border-primary/10 relative overflow-hidden">
+                                                <p class="font-body text-sm leading-relaxed text-on-surface">
+                                                    <span class="bg-primary/5 text-primary">System Role: Senior Equity Analyst (Macro/Quant focus).</span><br/><br/>
+                                                    <span class="bg-primary/5 text-primary">Task:</span> Synthesize the attached 10-Q report into a risk-oriented summary.<br/><br/>
+                                                    <span class="bg-primary/5 text-primary">Parameters:</span> 1. Metrics Table, 2. Sentiment Pivot, 3. Risk Vector.
+                                                </p>
+                                            </div>
+                                            <button class="w-full bg-primary text-on-primary py-3 px-6 text-sm font-label font-medium tracking-wide rounded-sm hover:opacity-90">Deploy Variant</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="w-96 bg-[#f5f3ef] p-10 space-y-12">
+                                <h2 class="font-serif text-xl">Evaluation</h2>
+                                <div class="p-6 bg-surface-container-lowest rounded-lg border border-primary/20 flex flex-col items-center text-center space-y-3">
+                                    <div class="w-12 h-12 bg-primary-container text-white rounded-full flex items-center justify-center">
+                                        <span class="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+                                    </div>
+                                    <div class="text-primary font-bold text-lg font-serif">Certified</div>
+                                </div>
+                                <div class="space-y-4">
+                                    <div class="flex justify-between items-end">
+                                        <div class="text-xs font-label text-stone-500 uppercase">Precision Score</div>
+                                        <div class="text-2xl font-serif text-primary">98.4%</div>
+                                    </div>
+                                    <div class="h-1 bg-surface-container-highest w-full rounded-full overflow-hidden">
+                                        <div class="h-full bg-primary w-[98.4%]"></div>
+                                    </div>
+                                </div>
+                            </section>
+                        </main>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- Screen 3: Inspector ---
+        const InspectorScreen = () => {
+            return (
+                <div class="flex flex-col h-screen overflow-hidden">
+                    <TopNavBar active="Inspector" />
+                    <div class="flex flex-1 overflow-hidden">
+                        <aside class="flex flex-col h-full w-72 bg-[#f5f3ef] dark:bg-stone-900 border-r border-transparent p-6">
+                            <div class="flex items-center space-x-3 mb-6">
+                                <div class="w-10 h-10 bg-primary flex items-center justify-center rounded-sm">
+                                    <span class="material-symbols-outlined text-on-primary">architecture</span>
+                                </div>
+                                <div>
+                                    <h2 class="text-lg font-semibold text-primary">The Atelier</h2>
+                                    <p class="text-[10px] uppercase tracking-wider text-stone-500 font-label">System Architect</p>
+                                </div>
+                            </div>
+                            <div class="flex-1 overflow-y-auto space-y-6">
+                                <nav class="space-y-1">
+                                    {['Flows', 'Epics', 'Artifacts', 'Library'].map(item => (
+                                        <div key={item} class={`flex items-center px-3 py-2 ${item === 'Artifacts' ? 'text-[#004532] font-semibold' : 'text-stone-500'} cursor-pointer`}>
+                                            <span class="material-symbols-outlined mr-3">{item === 'Flows' ? 'account_tree' : item === 'Epics' ? 'auto_stories' : item === 'Artifacts' ? 'history_edu' : 'shelves'}</span>
+                                            <span class="text-sm font-medium">{item}</span>
+                                        </div>
+                                    ))}
+                                </nav>
+                                <div class="space-y-4">
+                                    <h3 class="px-3 text-[10px] font-label font-bold uppercase tracking-widest text-stone-400">File Hierarchy</h3>
+                                    <div class="ml-4 space-y-1 text-xs text-stone-500">
+                                        <div class="flex items-center px-3 py-1 bg-surface-container-highest text-primary font-semibold">architect_flow.graph</div>
+                                        <div class="px-3 py-1">schema_definition.json</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
+                        <main class="flex-1 flex overflow-hidden">
+                            <section class="flex-1 flex flex-col bg-surface relative overflow-hidden">
+                                <header class="h-16 flex items-center justify-between px-8 border-b border-surface-variant/10">
+                                    <h1 class="text-2xl font-headline font-bold">Run #4212-A</h1>
+                                    <div class="flex items-center space-x-2 bg-surface-container-low p-1 rounded">
+                                        <button class="px-4 py-1.5 text-xs font-medium bg-surface-container-lowest text-primary shadow-sm">Graph View</button>
+                                        <button class="px-4 py-1.5 text-xs font-medium text-stone-500">JSON Schema</button>
+                                    </div>
+                                </header>
+                                <div class="flex-1 p-8 bg-[radial-gradient(#e4e2de_1px,transparent_1px)] bg-[length:20px_20px] flex items-center justify-center">
+                                    <div class="w-56 bg-surface-container-lowest p-6 border-l-4 border-tertiary shadow-lg ring-2 ring-primary">
+                                        <p class="text-[9px] uppercase font-label text-tertiary font-bold tracking-widest">Active Artifact</p>
+                                        <h4 class="font-headline text-xl font-bold">System Flow Architect</h4>
+                                    </div>
+                                </div>
+                            </section>
+                            <aside class="w-96 bg-surface-container-low p-6 space-y-8 overflow-y-auto">
+                                <h3 class="text-xl font-headline font-bold">Metadata Inspector</h3>
+                                <div class="bg-on-background text-background p-4 rounded-sm font-mono text-[11px] leading-relaxed">
+                                    <pre>{`{ "artifact_id": "sha-4212a-001", "version": "1.4.0" }`}</pre>
+                                </div>
+                                <div class="w-full aspect-video rounded-sm overflow-hidden bg-stone-200">
+                                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbiibTfxD3Y7KeRQlK0cyISFS9Qo6J_8Ed7IjJZ_BlVThpcxgD184dXzyTbsFjZBEGMlC1BYOVtrpO2ODyggApwBCT-FxHT-atqr2uh9A1CoFKDquGlQJpeBwVqlnqJ_khu5chgu1lp5z0oKzC4AVczlAb5aw_vsi5-EvR00_Frb1OSPOziKFUWEAH94cE2_kUXNjII0dkLr0PaTovjLufBEAwsji993vYnH7b_XovYDsdQJEWSe7Eh7g8_3sAt9KznjV5iAJZT_Q" className="w-full h-full object-cover" />
+                                </div>
+                            </aside>
+                        </main>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- Screen 4: Runs ---
+        const RunsScreen = () => {
+            return (
+                <div class="flex flex-col h-screen overflow-hidden">
+                    <TopNavBar active="Runs" />
+                    <div class="flex flex-1 overflow-hidden">
+                        <RailSideBar />
+                        <main class="flex-1 overflow-auto px-12 py-10 bg-surface">
+                            <div class="flex justify-between items-end mb-12">
+                                <div>
+                                    <h1 class="font-serif text-4xl text-on-surface font-bold tracking-tight mb-2">Run History</h1>
+                                    <p class="font-body text-stone-500 text-sm">Audit log and status monitor for Project Alpha.</p>
+                                </div>
+                                <button class="bg-primary text-on-primary font-body text-sm font-semibold px-6 py-2 rounded-sm hover:opacity-90">Initiate New Run</button>
+                            </div>
+                            <div class="grid grid-cols-4 gap-6 mb-12">
+                                <div class="bg-surface-container-low p-6 flex flex-col gap-1">
+                                    <span class="label-text text-[10px] uppercase tracking-widest text-stone-400 font-semibold">Total Runs</span>
+                                    <span class="serif-text text-3xl font-bold text-on-surface">1,284</span>
+                                </div>
+                                <div class="bg-surface-container-low p-6 flex flex-col gap-1">
+                                    <span class="label-text text-[10px] uppercase tracking-widest text-stone-400 font-semibold">Success Rate</span>
+                                    <span class="serif-text text-3xl font-bold text-[#004532]">98.2%</span>
+                                </div>
+                            </div>
+                            <div class="bg-surface-container-lowest rounded-sm overflow-hidden ring-1 ring-black/[0.03]">
+                                <table class="w-full text-left border-collapse">
+                                    <thead class="bg-surface-container-low">
+                                        <tr>
+                                            <th class="px-6 py-4 label-text text-[11px] font-bold text-stone-400 uppercase">Run ID</th>
+                                            <th class="px-6 py-4 label-text text-[11px] font-bold text-stone-400 uppercase">Flow</th>
+                                            <th class="px-6 py-4 label-text text-[11px] font-bold text-stone-400 uppercase">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-stone-100">
+                                        {[
+                                            {id: 'R-7721-X', flow: 'Cognitive Mapper v2', status: 'Running', color: 'bg-tertiary-fixed'},
+                                            {id: 'R-7720-A', flow: 'Asset Refinement', status: 'Completed', color: 'bg-secondary-container'},
+                                            {id: 'R-7719-D', flow: 'Sentiment Engine', status: 'Failed', color: 'bg-error-container'}
+                                        ].map(run => (
+                                            <tr key={run.id} class="hover:bg-surface-container-low/50">
+                                                <td class="px-6 py-5 font-mono text-xs text-primary font-bold">{run.id}</td>
+                                                <td class="px-6 py-5 text-sm">{run.flow}</td>
+                                                <td class="px-6 py-5">
+                                                    <span class={`${run.color} text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-sm`}>{run.status}</span>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </main>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- Screen 5: Board ---
+        const BoardScreen = () => {
+            return (
+                <div class="flex flex-col h-screen overflow-hidden">
+                    <TopNavBar active="Board" />
+                    <div class="flex flex-1 overflow-hidden">
+                        <RailSideBar />
+                        <main class="flex-1 flex flex-col overflow-hidden bg-surface">
+                            <div class="px-8 pt-8 pb-4">
+                                <h1 class="text-4xl font-serif font-semibold text-primary">Orket UI Requirements</h1>
+                                <p class="text-stone-500 font-body text-sm mt-2">Definition and refinement of the core UI architecture.</p>
+                            </div>
+                            <div class="flex-1 overflow-x-auto no-scrollbar flex gap-8 p-8 items-start">
+                                <div class="w-80 flex-shrink-0">
+                                    <h3 class="font-serif text-lg font-medium mb-4">Definition</h3>
+                                    <div class="bg-white border-2 border-primary/20 p-5 rounded shadow-sm relative overflow-hidden">
+                                        <div class="absolute top-0 right-0 p-2"><span class="h-2 w-2 bg-emerald-500 rounded-full inline-block"></span></div>
+                                        <h4 class="font-body font-semibold mb-2">Draft Requirements</h4>
+                                        <p class="text-xs text-stone-600">Translating atelier vision into functional specs.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </main>
+                        <aside class="w-96 bg-[#f5f3ef] border-l border-outline-variant/20 flex flex-col p-6 space-y-8">
+                            <h2 class="font-serif text-xl font-bold text-primary">Active Run</h2>
+                            <div class="bg-white p-5 rounded border border-outline-variant/20 shadow-sm">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="w-10 h-10 bg-primary rounded-sm flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-white" style={{ fontVariationSettings: "'FILL' 1" }}>bolt</span>
+                                    </div>
+                                    <h4 class="font-serif font-bold text-stone-900">Requirement Synthesis</h4>
+                                </div>
+                                <div class="w-full bg-surface-container-high h-1 rounded-full"><div class="bg-primary h-full w-[65%]"></div></div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- Screen 6: Cards ---
+        const CardsScreen = () => {
+            return (
+                <div class="flex flex-col h-screen overflow-hidden">
+                    <TopNavBar active="Cards" />
+                    <div class="flex flex-1 overflow-hidden">
+                        <aside class="w-16 flex flex-col items-center py-6 bg-[#f5f3ef] dark:bg-stone-900 border-r border-transparent">
+                            <span class="material-symbols-outlined text-primary mb-8">account_tree</span>
+                            <span class="material-symbols-outlined text-stone-500 mb-8">auto_stories</span>
+                            <span class="material-symbols-outlined text-stone-500">history_edu</span>
+                        </aside>
+                        <main class="flex-1 flex overflow-hidden">
+                            <section class="flex-1 overflow-y-auto px-12 py-10 bg-surface-bright">
+                                <div class="max-w-4xl mx-auto space-y-12">
+                                    <div class="space-y-2">
+                                        <div class="flex items-center gap-2 text-primary font-label text-xs tracking-widest uppercase mb-4">
+                                            <span class="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>description</span>
+                                            <span>Card Definition</span>
+                                        </div>
+                                        <h1 class="serif-text text-5xl font-bold text-on-surface">Draft Requirements</h1>
+                                        <p class="text-secondary font-body text-lg italic">Standardizing product alignment and technical scope.</p>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-12 pt-8 border-t border-surface-container">
+                                        <div class="space-y-2">
+                                            <label class="label-text text-xs text-stone-500 uppercase">Card Kind</label>
+                                            <div class="flex items-center gap-2 font-medium"><span class="material-symbols-outlined text-primary">schema</span> Requirements</div>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-4">
+                                        <h3 class="serif-text text-2xl font-semibold">System Prompt</h3>
+                                        <div class="bg-surface-container-lowest p-8 border-l-4 border-primary shadow-sm">
+                                            <pre class="font-mono text-sm text-stone-700 whitespace-pre-wrap">Act as a Senior Systems Architect. Analyze the following INPUTS and generate a comprehensive 'Requirements Document'...</pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <aside class="w-80 bg-surface-container-low border-l border-transparent px-6 py-10 space-y-10">
+                                <h4 class="label-text text-[10px] font-bold text-stone-400 uppercase tracking-widest">Live Validation</h4>
+                                <div class="flex items-start gap-3 p-3 bg-surface-container-highest/50 border-l-2 border-primary">
+                                    <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+                                    <div><p class="text-xs font-bold">Card Ready</p></div>
+                                </div>
+                                <button class="w-full py-4 bg-primary text-on-primary font-label text-sm font-semibold tracking-wide hover:opacity-90">Save & Commit Artifact</button>
+                            </aside>
+                        </main>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            return (
+                <MemoryRouter>
+                    <Routes>
+                        <Route path="/" element={<CardsScreen />} />
+                        <Route path="/board" element={<BoardScreen />} />
+                        <Route path="/runs" element={<RunsScreen />} />
+                        <Route path="/inspector" element={<InspectorScreen />} />
+                        <Route path="/sequencer" element={<SequencerScreen />} />
+                        <Route path="/reforger" element={<ReforgerScreen />} />
+                    </Routes>
+                </MemoryRouter>
+            );
+        };
+
+        const container = document.getElementById('root');
+        const root = createRoot(container);
+        root.render(<App />);
+    </script>
+</body>
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Orket | Sequencer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&amp;family=Manrope:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#ffb87e",
+                        "on-secondary-fixed": "#0f1f16",
+                        "background": "#fbf9f5",
+                        "on-background": "#1b1c1a",
+                        "on-surface-variant": "#3f4944",
+                        "secondary-fixed-dim": "#b8cbbd",
+                        "on-secondary-fixed-variant": "#3a4b40",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e4e2de",
+                        "on-tertiary-fixed": "#2f1500",
+                        "on-primary-fixed": "#002116",
+                        "secondary-fixed": "#d4e7d9",
+                        "primary-fixed": "#a6f2d1",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#dbdad6",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f2f0ed",
+                        "on-surface": "#1b1c1a",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "tertiary": "#5e3000",
+                        "on-primary-container": "#8bd6b7",
+                        "surface": "#fbf9f5",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#516257",
+                        "outline": "#6f7973",
+                        "on-secondary-container": "#55675b",
+                        "surface-tint": "#1b6b51",
+                        "surface-container-highest": "#e4e2de",
+                        "primary-container": "#065f46",
+                        "on-primary-fixed-variant": "#00513b",
+                        "outline-variant": "#bec9c2",
+                        "primary": "#004532",
+                        "surface-container-high": "#eae8e4",
+                        "surface-container-low": "#f5f3ef",
+                        "inverse-primary": "#8bd6b6",
+                        "primary-fixed-dim": "#8bd6b6",
+                        "tertiary-fixed": "#ffdcc3",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#d1e4d6",
+                        "surface-bright": "#fbf9f5",
+                        "error": "#ba1a1a",
+                        "surface-container": "#efeeea",
+                        "surface-container-lowest": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Newsreader"],
+                        "body": ["Manrope"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; background-color: #fbf9f5; }
+        .font-serif { font-family: 'Newsreader', serif; }
+        .font-sans { font-family: 'Manrope', sans-serif; }
+        .font-label { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+        .canvas-grid {
+            background-image: radial-gradient(#e4e2de 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation Bar -->
+<header class="flex justify-between items-center w-full px-8 py-4 bg-[#fbf9f5] dark:bg-stone-950 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-serif font-bold text-[#004532] dark:text-emerald-400">Orket</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] font-sans text-sm font-medium" href="#">Cards</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] font-sans text-sm font-medium" href="#">Board</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] font-sans text-sm font-medium" href="#">Runs</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] font-sans text-sm font-medium" href="#">Inspector</a>
+<a class="text-[#004532] dark:text-emerald-400 border-b-2 border-[#004532] dark:border-emerald-500 pb-1 font-sans text-sm font-medium" href="#">Sequencer</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] font-sans text-sm font-medium" href="#">Prompt Reforger</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="bg-surface-container-low px-3 py-1.5 flex items-center gap-2 rounded-sm border border-outline-variant/20">
+<span class="material-symbols-outlined text-sm text-stone-500">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm font-sans w-48" placeholder="Search components..." type="text"/>
+</div>
+<button class="p-2 hover:bg-[#f5f3ef] transition-colors rounded-sm">
+<span class="material-symbols-outlined text-stone-600">settings</span>
+</button>
+<button class="p-2 hover:bg-[#f5f3ef] transition-colors rounded-sm">
+<span class="material-symbols-outlined text-stone-600">help</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden ml-2 bg-stone-200">
+<img class="w-full h-full object-cover" data-alt="Close-up portrait of a professional system designer in a bright studio setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVPchSlQPyds5eODJsoXl3AANfmgDdKOussIK1_qIrkwSWpYiLWGZLRiA7kTshLU_-KSbFU3jKiObkd7_gdFh-Tc5-cPfkVl317caOPoUvIFWb92SboQFBFtkLLUekOLkv7yMoXkGyj-mY5QtokixPZpljUEVePPeTdhsQVtaOe_aTik3i3O8cdYILqlclpuDVoWDtaCRteZFV6VsQwt0T7QFbpCdSlLi9Xjyrd_K7a4TYV2e1pPaLhCek1UENdxGS5FTuojRL18k"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Side Navigation Bar (Left Rail) -->
+<aside class="flex flex-col h-full w-64 bg-[#f5f3ef] dark:bg-stone-900 border-r border-transparent">
+<!-- Header Section -->
+<div class="p-6">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded-sm text-on-primary">
+<span class="material-symbols-outlined">account_tree</span>
+</div>
+<div>
+<h2 class="font-sans font-semibold text-sm text-primary tracking-tight">The Atelier</h2>
+<p class="font-sans text-xs text-stone-500">System Architect</p>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-stone-500 hover:text-[#004532] transition-all font-sans font-medium text-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">account_tree</span>
+<span>Flows</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-stone-500 hover:text-[#004532] transition-all font-sans font-medium text-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">auto_stories</span>
+<span>Epics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-stone-500 hover:text-[#004532] transition-all font-sans font-medium text-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">history_edu</span>
+<span>Artifacts</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-stone-500 hover:text-[#004532] transition-all font-sans font-medium text-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">shelves</span>
+<span>Library</span>
+</a>
+</nav>
+</div>
+<!-- Palette (Bottom part of Left Rail) -->
+<div class="mt-auto p-4 border-t border-outline-variant/20 bg-surface-container-high/30">
+<p class="text-[10px] font-label font-semibold text-stone-400 uppercase tracking-widest mb-4 px-2">Palette</p>
+<div class="grid grid-cols-2 gap-2">
+<div class="group cursor-pointer p-2 bg-surface-container-lowest border border-outline-variant/10 rounded-sm hover:border-primary/40 transition-all flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[20px]">assignment</span>
+<span class="text-[10px] font-label font-medium">Requirement</span>
+</div>
+<div class="group cursor-pointer p-2 bg-surface-container-lowest border border-outline-variant/10 rounded-sm hover:border-primary/40 transition-all flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[20px]">code</span>
+<span class="text-[10px] font-label font-medium">Code</span>
+</div>
+<div class="group cursor-pointer p-2 bg-surface-container-lowest border border-outline-variant/10 rounded-sm hover:border-primary/40 transition-all flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-tertiary text-[20px]">rate_review</span>
+<span class="text-[10px] font-label font-medium">Critique</span>
+</div>
+<div class="group cursor-pointer p-2 bg-surface-container-lowest border border-outline-variant/10 rounded-sm hover:border-primary/40 transition-all flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-emerald-600 text-[20px]">verified</span>
+<span class="text-[10px] font-label font-medium">Approval</span>
+</div>
+<div class="group cursor-pointer p-2 bg-surface-container-lowest border border-outline-variant/10 rounded-sm hover:border-primary/40 transition-all flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-stone-500 text-[20px]">call_split</span>
+<span class="text-[10px] font-label font-medium">Branch</span>
+</div>
+<div class="group cursor-pointer p-2 bg-surface-container-lowest border border-outline-variant/10 rounded-sm hover:border-primary/40 transition-all flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-stone-500 text-[20px]">call_merge</span>
+<span class="text-[10px] font-label font-medium">Merge</span>
+</div>
+<div class="group cursor-pointer p-2 bg-surface-container-lowest border border-outline-variant/10 rounded-sm hover:border-primary/40 transition-all flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-primary-container text-[20px]">play_circle</span>
+<span class="text-[10px] font-label font-medium">Start</span>
+</div>
+<div class="group cursor-pointer p-2 bg-surface-container-lowest border border-outline-variant/10 rounded-sm hover:border-primary/40 transition-all flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-error text-[20px]">stop_circle</span>
+<span class="text-[10px] font-label font-medium">Final</span>
+</div>
+</div>
+</div>
+<!-- Footer Stats -->
+<div class="p-4 border-t border-outline-variant/20">
+<div class="flex justify-around">
+<span class="material-symbols-outlined text-stone-400 hover:text-primary cursor-pointer text-[20px]">query_stats</span>
+<span class="material-symbols-outlined text-stone-400 hover:text-primary cursor-pointer text-[20px]">database</span>
+<span class="material-symbols-outlined text-stone-400 hover:text-primary cursor-pointer text-[20px]">grid_view</span>
+</div>
+</div>
+</aside>
+<!-- Main Composition Canvas -->
+<main class="flex-1 relative bg-surface canvas-grid overflow-hidden">
+<div class="absolute top-6 left-8">
+<h1 class="font-serif text-3xl text-primary font-bold">Project Alpha</h1>
+<p class="font-sans text-sm text-stone-500 mt-1">Architecture Flow • Last saved 2m ago</p>
+</div>
+<div class="absolute top-6 right-8 flex gap-3">
+<button class="bg-surface-container-lowest border border-outline-variant/30 px-4 py-2 rounded-sm text-sm font-sans font-medium flex items-center gap-2 hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[18px]">zoom_in</span> 100%
+                </button>
+<button class="bg-surface-container-lowest border border-outline-variant/30 px-4 py-2 rounded-sm text-sm font-sans font-medium flex items-center gap-2 hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[18px]">layers</span> Layers
+                </button>
+</div>
+<!-- Flow Nodes -->
+<div class="absolute inset-0 flex items-center justify-center p-20">
+<div class="relative w-full h-full max-w-5xl">
+<!-- Start Node -->
+<div class="absolute top-1/2 left-0 -translate-y-1/2 flex items-center">
+<div class="p-4 bg-surface-container-lowest border-2 border-primary/20 rounded-sm shadow-sm w-32 text-center">
+<span class="material-symbols-outlined text-primary mb-1">play_circle</span>
+<p class="text-xs font-bold font-sans uppercase tracking-tighter">Start</p>
+</div>
+<div class="w-16 h-0.5 bg-outline-variant/40 relative">
+<div class="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-outline-variant rotate-45"></div>
+</div>
+</div>
+<!-- Selected Requirement Card Node -->
+<div class="absolute top-1/2 left-48 -translate-y-1/2 flex items-center">
+<div class="p-5 bg-surface-container-lowest border-2 border-primary rounded-sm shadow-xl w-64 ring-4 ring-primary/5">
+<div class="flex justify-between items-start mb-3">
+<span class="bg-primary/10 text-primary px-2 py-0.5 rounded-sm text-[10px] font-bold font-sans">REQ-01</span>
+<span class="material-symbols-outlined text-primary text-[18px]">assignment</span>
+</div>
+<h3 class="font-serif text-lg leading-tight mb-2">Core API Spec</h3>
+<p class="text-xs text-stone-500 font-sans line-clamp-2">Define the primary endpoint structures and authentication protocols for Alpha.</p>
+<div class="mt-4 pt-4 border-t border-outline-variant/20 flex justify-between items-center">
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border-2 border-surface-container-lowest bg-stone-200"></div>
+<div class="w-6 h-6 rounded-full border-2 border-surface-container-lowest bg-stone-300"></div>
+</div>
+<span class="text-[10px] font-label text-stone-400">v2.4.0</span>
+</div>
+</div>
+<div class="w-24 h-0.5 bg-primary relative">
+<div class="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-primary rotate-45"></div>
+</div>
+</div>
+<!-- Code Card Node -->
+<div class="absolute top-1/2 left-[440px] -translate-y-1/2 flex items-center">
+<div class="p-5 bg-surface-container-lowest border border-outline-variant/40 rounded-sm shadow-sm w-64 hover:border-primary/40 transition-colors">
+<div class="flex justify-between items-start mb-3">
+<span class="bg-secondary/10 text-secondary px-2 py-0.5 rounded-sm text-[10px] font-bold font-sans">CODE-A</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">code</span>
+</div>
+<h3 class="font-serif text-lg leading-tight mb-2">Auth Module</h3>
+<p class="text-xs text-stone-500 font-sans line-clamp-2">Implementation of the JWT strategy and bearer token validation logic.</p>
+</div>
+<!-- Branching lines -->
+<div class="relative w-16 h-32">
+<svg class="absolute inset-0 w-full h-full overflow-visible" preserveaspectratio="none">
+<path d="M 0 64 L 32 64 C 48 64 48 0 64 0" fill="none" stroke="#bec9c2" stroke-width="2"></path>
+<path d="M 0 64 L 32 64 C 48 64 48 128 64 128" fill="none" stroke="#bec9c2" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+<!-- Branch Critique Nodes -->
+<div class="absolute top-[calc(50%-140px)] right-0">
+<div class="p-4 bg-surface-container-lowest border border-outline-variant/40 rounded-sm shadow-sm w-56">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-tertiary text-[18px]">rate_review</span>
+<span class="text-[10px] font-bold font-sans text-tertiary">CRITIQUE</span>
+</div>
+<h4 class="font-serif text-md">Security Review</h4>
+</div>
+</div>
+<div class="absolute top-[calc(50%+60px)] right-0">
+<div class="p-4 bg-surface-container-lowest border border-outline-variant/40 rounded-sm shadow-sm w-56">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-tertiary text-[18px]">rate_review</span>
+<span class="text-[10px] font-bold font-sans text-tertiary">CRITIQUE</span>
+</div>
+<h4 class="font-serif text-md">Performance Audit</h4>
+</div>
+</div>
+</div>
+</div>
+<!-- Canvas Controls Float -->
+<div class="absolute bottom-8 left-1/2 -translate-x-1/2 bg-surface-container-lowest/80 backdrop-blur-md px-6 py-3 rounded-full border border-outline-variant/30 flex items-center gap-8 shadow-lg">
+<div class="flex items-center gap-4 border-r border-outline-variant/20 pr-8">
+<button class="material-symbols-outlined text-stone-400 hover:text-primary">undo</button>
+<button class="material-symbols-outlined text-stone-400 hover:text-primary">redo</button>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-stone-400 hover:text-primary">pan_tool</button>
+<button class="material-symbols-outlined text-primary font-bold">near_me</button>
+<button class="material-symbols-outlined text-stone-400 hover:text-primary">add_comment</button>
+</div>
+<div class="flex items-center gap-4 border-l border-outline-variant/20 pl-8">
+<button class="material-symbols-outlined text-stone-400 hover:text-primary">center_focus_strong</button>
+<button class="material-symbols-outlined text-stone-400 hover:text-primary">grid_on</button>
+</div>
+</div>
+</main>
+<!-- Right Node Inspector -->
+<aside class="w-80 h-full bg-[#fbf9f5] border-l border-outline-variant/10 flex flex-col">
+<div class="p-6 border-b border-outline-variant/10">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-primary text-sm">assignment</span>
+<span class="font-label text-[10px] font-bold text-stone-400 uppercase tracking-widest">Requirement Card</span>
+</div>
+<h2 class="font-serif text-2xl font-bold text-primary">Core API Spec</h2>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-8">
+<!-- Selected Card Details -->
+<section>
+<label class="font-sans text-[11px] font-bold text-stone-400 uppercase tracking-wider block mb-2">Assigned Card</label>
+<div class="bg-surface-container-low p-3 rounded-sm border border-outline-variant/20 flex items-center justify-between">
+<span class="font-sans text-sm font-medium">RE-2024-ALPHA-01</span>
+<span class="material-symbols-outlined text-stone-400 text-sm">open_in_new</span>
+</div>
+</section>
+<section>
+<label class="font-sans text-[11px] font-bold text-stone-400 uppercase tracking-wider block mb-2">Category</label>
+<div class="flex gap-2">
+<span class="px-2 py-1 bg-[#d4e7d9] text-[#004532] text-[10px] font-bold rounded-sm uppercase">Infrastructure</span>
+<span class="px-2 py-1 bg-surface-container-highest text-stone-600 text-[10px] font-bold rounded-sm uppercase">High Priority</span>
+</div>
+</section>
+<section>
+<label class="font-sans text-[11px] font-bold text-stone-400 uppercase tracking-wider block mb-2">Expected Output</label>
+<p class="font-sans text-sm text-on-surface-variant leading-relaxed">
+                        A markdown-formatted specification document adhering to the OpenAPI 3.1 standard, including all schema definitions and security requirements.
+                    </p>
+</section>
+<section>
+<label class="font-sans text-[11px] font-bold text-stone-400 uppercase tracking-wider block mb-2">Prompt Summary</label>
+<div class="bg-surface-container-lowest p-4 border border-outline-variant/10 rounded-sm italic text-sm text-stone-500 font-serif">
+                        "Generate a robust schema for Project Alpha's authentication gateway, focusing on..."
+                    </div>
+</section>
+<section>
+<label class="font-sans text-[11px] font-bold text-stone-400 uppercase tracking-wider block mb-2">Connections</label>
+<div class="space-y-3">
+<div class="flex items-center justify-between text-xs font-sans">
+<span class="text-stone-400 flex items-center gap-1"><span class="material-symbols-outlined text-sm">login</span> Incoming</span>
+<span class="font-medium text-primary">Start Node</span>
+</div>
+<div class="flex items-center justify-between text-xs font-sans">
+<span class="text-stone-400 flex items-center gap-1"><span class="material-symbols-outlined text-sm">logout</span> Outgoing</span>
+<span class="font-medium text-primary">Auth Module (Code)</span>
+</div>
+</div>
+</section>
+<section>
+<label class="font-sans text-[11px] font-bold text-stone-400 uppercase tracking-wider block mb-2">Notes</label>
+<textarea class="w-full bg-surface-container-low border-none focus:ring-1 focus:ring-primary text-sm font-sans rounded-sm h-24 placeholder:text-stone-300" placeholder="Add architectural notes..."></textarea>
+</section>
+</div>
+<!-- Global Actions -->
+<div class="p-6 bg-surface-container-low border-t border-outline-variant/20 space-y-3">
+<button class="w-full py-3 border border-primary text-primary font-sans text-sm font-bold rounded-sm hover:bg-primary/5 transition-colors">
+                    Validate Flow
+                </button>
+<div class="flex gap-3">
+<button class="flex-1 py-3 bg-surface-container-highest text-stone-700 font-sans text-sm font-bold rounded-sm hover:bg-stone-300 transition-colors">
+                        Save Flow
+                    </button>
+<button class="flex-[1.5] py-3 bg-primary text-on-primary font-sans text-sm font-bold rounded-sm hover:bg-[#003628] transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+                        Run Flow
+                    </button>
+</div>
+</div>
+</aside>
+</div>
+</body></html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Orket | Prompt Reforger</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&amp;family=Manrope:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-tertiary-container": "#ffb87e",
+                "on-secondary-fixed": "#0f1f16",
+                "background": "#fbf9f5",
+                "on-background": "#1b1c1a",
+                "on-surface-variant": "#3f4944",
+                "secondary-fixed-dim": "#b8cbbd",
+                "on-secondary-fixed-variant": "#3a4b40",
+                "on-primary": "#ffffff",
+                "surface-variant": "#e4e2de",
+                "on-tertiary-fixed": "#2f1500",
+                "on-primary-fixed": "#002116",
+                "secondary-fixed": "#d4e7d9",
+                "primary-fixed": "#a6f2d1",
+                "on-error-container": "#93000a",
+                "surface-dim": "#dbdad6",
+                "on-error": "#ffffff",
+                "inverse-on-surface": "#f2f0ed",
+                "on-surface": "#1b1c1a",
+                "on-tertiary-fixed-variant": "#6e3900",
+                "tertiary": "#5e3000",
+                "on-primary-container": "#8bd6b7",
+                "surface": "#fbf9f5",
+                "on-tertiary": "#ffffff",
+                "secondary": "#516257",
+                "outline": "#6f7973",
+                "on-secondary-container": "#55675b",
+                "surface-tint": "#1b6b51",
+                "surface-container-highest": "#e4e2de",
+                "primary-container": "#065f46",
+                "on-primary-fixed-variant": "#00513b",
+                "outline-variant": "#bec9c2",
+                "primary": "#004532",
+                "surface-container-high": "#eae8e4",
+                "surface-container-low": "#f5f3ef",
+                "inverse-primary": "#8bd6b6",
+                "primary-fixed-dim": "#8bd6b6",
+                "tertiary-fixed": "#ffdcc3",
+                "on-secondary": "#ffffff",
+                "secondary-container": "#d1e4d6",
+                "surface-bright": "#fbf9f5",
+                "error": "#ba1a1a",
+                "surface-container": "#efeeea",
+                "surface-container-lowest": "#ffffff"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "fontFamily": {
+                "headline": ["Newsreader", "serif"],
+                "body": ["Manrope", "sans-serif"],
+                "label": ["Inter", "sans-serif"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Manrope', sans-serif; background-color: #fbf9f5; color: #1b1c1a; }
+        .font-serif { font-family: 'Newsreader', serif; }
+        .font-sans { font-family: 'Manrope', sans-serif; }
+        .font-mono-inter { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="antialiased overflow-hidden">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-8 py-4 bg-[#fbf9f5] dark:bg-stone-950 top-0 sticky z-50">
+<div class="text-2xl font-serif font-bold text-[#004532] dark:text-emerald-400">Orket</div>
+<nav class="hidden md:flex items-center space-x-8">
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] font-sans text-sm font-medium" href="#">Cards</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] font-sans text-sm font-medium" href="#">Board</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] font-sans text-sm font-medium" href="#">Runs</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] font-sans text-sm font-medium" href="#">Inspector</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] font-sans text-sm font-medium" href="#">Sequencer</a>
+<a class="text-[#004532] dark:text-emerald-400 border-b-2 border-[#004532] dark:border-emerald-500 pb-1 font-sans text-sm font-medium" href="#">Prompt Reforger</a>
+</nav>
+<div class="flex items-center space-x-4">
+<span class="material-symbols-outlined text-stone-500 cursor-pointer p-2 hover:bg-[#f5f3ef] rounded-lg">settings</span>
+<span class="material-symbols-outlined text-stone-500 cursor-pointer p-2 hover:bg-[#f5f3ef] rounded-lg">help</span>
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center overflow-hidden">
+<img alt="User profile" data-alt="Close-up portrait of a professional man in a minimalist office setting, soft natural lighting, high-end editorial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFuR4x8RMNBVpEXH1Bp6uq1HQzvUDVbU6f_MdNGZES1W7e56bB3_EPn8LI763zJdtzLZvws4JylH3A0MOouprmsSnrKuzX3DvyxfnECezahCJteD3aU-CpK88Gl8VtfapC6NH90mMqe42LAOM1eQZoOltL8Fo0_3_y2wr17llsB1ZoICEVFlCxnnx4XlCZC5hcsmTf5XCUABgxx_vKqOAPPdcdqnBkApwX5Arv3f6OdKXWJvMgYeJD3iRiLr3JSm3tNwrftoTtnIo"/>
+</div>
+</div>
+</header>
+<div class="flex h-[calc(100vh-72px)] overflow-hidden">
+<!-- SideNavBar (Collapsed Layout) -->
+<aside class="flex flex-col h-full bg-[#f5f3ef] dark:bg-stone-900 w-20 border-r border-transparent items-center py-6 space-y-8">
+<div class="flex flex-col items-center space-y-6">
+<div class="group cursor-pointer flex flex-col items-center">
+<span class="material-symbols-outlined text-stone-500 group-hover:text-[#004532]">account_tree</span>
+</div>
+<div class="group cursor-pointer flex flex-col items-center">
+<span class="material-symbols-outlined text-stone-500 group-hover:text-[#004532]">auto_stories</span>
+</div>
+<div class="group cursor-pointer flex flex-col items-center">
+<span class="material-symbols-outlined text-[#004532] dark:text-emerald-400 font-semibold" style="font-variation-settings: 'FILL' 1;">history_edu</span>
+</div>
+<div class="group cursor-pointer flex flex-col items-center">
+<span class="material-symbols-outlined text-stone-500 group-hover:text-[#004532]">shelves</span>
+</div>
+</div>
+<div class="mt-auto flex flex-col items-center space-y-6">
+<span class="material-symbols-outlined text-stone-500 cursor-pointer hover:text-[#004532]">query_stats</span>
+<span class="material-symbols-outlined text-stone-500 cursor-pointer hover:text-[#004532]">database</span>
+<span class="material-symbols-outlined text-stone-500 cursor-pointer hover:text-[#004532]">grid_view</span>
+</div>
+</aside>
+<!-- Main Workspace Canvas -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Comparison Area (Center) -->
+<section class="flex-1 p-12 overflow-y-auto bg-surface border-r border-surface-container-highest">
+<div class="max-w-5xl mx-auto space-y-12">
+<header class="space-y-2">
+<h1 class="text-4xl font-serif text-on-background tracking-tight">Prompt Reforger</h1>
+<p class="text-sm font-label text-on-surface-variant uppercase tracking-widest font-medium">Refining Task: Financial Analyst Persona</p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+<!-- Source Prompt -->
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="text-lg font-serif italic text-on-surface">Source Prompt</h3>
+<span class="text-[10px] font-label text-stone-400 tracking-tighter">ID: ORK-772-BASE</span>
+</div>
+<div class="p-8 bg-surface-container-low rounded-lg min-h-[400px] shadow-sm border border-outline-variant/10">
+<p class="font-body text-sm leading-relaxed text-on-surface-variant">
+                                    Act as a highly experienced financial analyst with 20 years of experience on Wall Street. 
+                                    I want you to look at the provided quarterly earnings report and give me a detailed summary 
+                                    of the key financial metrics, including revenue growth, net income, and EPS. 
+                                    Then, provide a critical analysis of the management's commentary and highlight any 
+                                    potential red flags or risks that an investor should be aware of. 
+                                    Be very professional and concise in your output.
+                                </p>
+</div>
+<div class="flex items-center space-x-2 text-stone-400">
+<span class="material-symbols-outlined text-xs">info</span>
+<span class="text-xs font-label">Verbose instruction pattern detected.</span>
+</div>
+</div>
+<!-- Candidate Variant 01 -->
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="text-lg font-serif italic text-primary">Candidate Variant 01</h3>
+<span class="px-2 py-0.5 bg-primary-container/10 text-primary text-[10px] font-label font-bold tracking-widest rounded-full uppercase">Optimized</span>
+</div>
+<div class="p-8 bg-surface-container-lowest rounded-lg min-h-[400px] shadow-md border border-primary/10 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
+<span class="material-symbols-outlined text-6xl">auto_fix_high</span>
+</div>
+<p class="font-body text-sm leading-relaxed text-on-surface">
+<span class="bg-primary/5 text-primary">System Role: Senior Equity Analyst (Macro/Quant focus).</span><br/><br/>
+<span class="bg-primary/5 text-primary">Task:</span> Synthesize the attached 10-Q report into a risk-oriented summary.<br/><br/>
+<span class="bg-primary/5 text-primary">Parameters:</span><br/>
+                                    1. <strong>Metrics Table:</strong> Rev, Net Income, EPS (YoY/QoQ).<br/>
+                                    2. <strong>Sentiment Pivot:</strong> Extract discrepancies between CFO narrative and reported liquidity ratios.<br/>
+                                    3. <strong>Risk Vector:</strong> Flag deviations from sector CAGR exceeding 5%.<br/><br/>
+<span class="bg-primary/5 text-primary">Style:</span> Professional, Bloomberg-standard terminology, zero-shot optimization.
+                                </p>
+</div>
+<div class="flex items-center space-x-4">
+<button class="flex-1 bg-primary text-on-primary py-3 px-6 text-sm font-label font-medium tracking-wide rounded-sm hover:opacity-90 transition-opacity">Deploy Variant</button>
+<button class="p-3 bg-surface-container-highest text-primary rounded-sm hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Evaluation Results (Right) -->
+<section class="w-96 bg-[#f5f3ef] overflow-y-auto">
+<div class="p-10 space-y-12">
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<h2 class="font-serif text-xl">Evaluation</h2>
+<span class="material-symbols-outlined text-stone-400">analytics</span>
+</div>
+<!-- Status Badge -->
+<div class="p-6 bg-surface-container-lowest rounded-lg border border-primary/20 flex flex-col items-center text-center space-y-3">
+<div class="w-12 h-12 bg-primary-container text-white rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div>
+<div class="text-primary font-bold text-lg font-serif">Certified</div>
+<div class="text-[10px] font-label text-stone-400 uppercase tracking-widest">Variant Outcome</div>
+</div>
+</div>
+<!-- Precision Score -->
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<div class="text-xs font-label text-stone-500 uppercase tracking-wider">Precision Score</div>
+<div class="text-2xl font-serif text-primary">98.4<span class="text-xs">%</span></div>
+</div>
+<div class="h-1 bg-surface-container-highest w-full rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[98.4%]"></div>
+</div>
+</div>
+<!-- Token Savings -->
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 bg-surface-container-high rounded border border-outline-variant/10">
+<div class="text-[10px] font-label text-stone-500 uppercase mb-1">Token Reduction</div>
+<div class="text-xl font-serif text-on-surface">32.5%</div>
+</div>
+<div class="p-4 bg-surface-container-high rounded border border-outline-variant/10">
+<div class="text-[10px] font-label text-stone-500 uppercase mb-1">Inference Speed</div>
+<div class="text-xl font-serif text-on-surface">+140ms</div>
+</div>
+</div>
+</div>
+<!-- Comparison Matrix -->
+<div class="space-y-6">
+<h3 class="text-xs font-label text-stone-500 uppercase tracking-widest font-bold">Metric Deviations</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between text-sm py-2 border-b border-outline-variant/30">
+<span class="font-body text-stone-600">Structural Logic</span>
+<span class="text-primary font-medium">+18%</span>
+</div>
+<div class="flex items-center justify-between text-sm py-2 border-b border-outline-variant/30">
+<span class="font-body text-stone-600">Context Retention</span>
+<span class="text-primary font-medium">Stable</span>
+</div>
+<div class="flex items-center justify-between text-sm py-2 border-b border-outline-variant/30">
+<span class="font-body text-stone-600">Hallucination Risk</span>
+<span class="text-error font-medium">-4.2%</span>
+</div>
+<div class="flex items-center justify-between text-sm py-2 border-b border-outline-variant/30">
+<span class="font-body text-stone-600">Persona Adherence</span>
+<span class="text-primary font-medium">+12%</span>
+</div>
+</div>
+</div>
+<!-- Inspector Note -->
+<div class="p-6 bg-surface-container-highest/50 border-l-2 border-primary italic">
+<p class="text-xs leading-relaxed text-stone-600 font-body">
+                            "The Reforger successfully converted subjective adjectives into objective structural constraints. 
+                            Variant 01 shows superior grounding in financial nomenclature while reducing prompt overhead by 48 tokens."
+                        </p>
+</div>
+</div>
+</section>
+</main>
+</div>
+</body></html>

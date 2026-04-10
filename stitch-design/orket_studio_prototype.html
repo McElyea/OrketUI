@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Orket | Studio Prototype</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#ffb87e",
+                        "on-secondary-fixed": "#0f1f16",
+                        "background": "#fbf9f5",
+                        "on-background": "#1b1c1a",
+                        "on-surface-variant": "#3f4944",
+                        "secondary-fixed-dim": "#b8cbbd",
+                        "on-secondary-fixed-variant": "#3a4b40",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e4e2de",
+                        "on-tertiary-fixed": "#2f1500",
+                        "on-primary-fixed": "#002116",
+                        "secondary-fixed": "#d4e7d9",
+                        "primary-fixed": "#a6f2d1",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#dbdad6",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f2f0ed",
+                        "on-surface": "#1b1c1a",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "tertiary": "#5e3000",
+                        "on-primary-container": "#8bd6b7",
+                        "surface": "#fbf9f5",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#516257",
+                        "outline": "#6f7973",
+                        "on-secondary-container": "#55675b",
+                        "surface-tint": "#1b6b51",
+                        "surface-container-highest": "#e4e2de",
+                        "primary-container": "#065f46",
+                        "on-primary-fixed-variant": "#00513b",
+                        "outline-variant": "#bec9c2",
+                        "primary": "#004532",
+                        "surface-container-high": "#eae8e4",
+                        "surface-container-low": "#f5f3ef",
+                        "inverse-primary": "#8bd6b6",
+                        "primary-fixed-dim": "#8bd6b6",
+                        "tertiary-fixed": "#ffdcc3",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#d1e4d6",
+                        "surface-bright": "#fbf9f5",
+                        "error": "#ba1a1a",
+                        "surface-container": "#efeeea",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#804300",
+                        "inverse-surface": "#30312e",
+                        "tertiary-fixed-dim": "#ffb77d",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Newsreader", "serif"],
+                        "body": ["Manrope", "sans-serif"],
+                        "label": ["Inter", "sans-serif"],
+                        "serif": ["Newsreader", "serif"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .canvas-grid {
+            background-image: radial-gradient(#e4e2de 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/history@5/umd/history.development.js"></script>
+    <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.development.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+        const { MemoryRouter, Routes, Route, Link, useNavigate, useLocation } = ReactRouterDOM;
+
+        // --- Common Components ---
+
+        const TopNavBar = () => {
+            const location = useLocation();
+            const getLinkClass = (path) => {
+                const isActive = location.pathname === path;
+                return isActive 
+                    ? "text-[#004532] dark:text-emerald-400 border-b-2 border-[#004532] dark:border-emerald-500 pb-1 font-body text-sm font-medium" 
+                    : "text-stone-500 dark:text-stone-400 hover:text-[#004532] font-body text-sm font-medium transition-colors";
+            };
+
+            return (
+                <header class="flex justify-between items-center w-full px-8 py-4 bg-[#fbf9f5] dark:bg-stone-950 z-50 sticky top-0 border-b border-surface-variant/10">
+                    <div class="flex items-center gap-12">
+                        <Link to="/" class="text-2xl font-serif font-bold text-[#004532] dark:text-emerald-400">Orket</Link>
+                        <nav class="hidden md:flex gap-8 items-center">
+                            <Link className={getLinkClass("/")} to="/">Cards</Link>
+                            <Link className={getLinkClass("/board")} to="/board">Board</Link>
+                            <Link className={getLinkClass("/runs")} to="/runs">Runs</Link>
+                            <Link className={getLinkClass("/inspector")} to="/inspector">Inspector</Link>
+                            <Link className={getLinkClass("/sequencer")} to="/sequencer">Sequencer</Link>
+                            <Link className={getLinkClass("/reforger")} to="/reforger">Prompt Reforger</Link>
+                        </nav>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="relative flex items-center bg-surface-container px-3 py-1.5 rounded-sm">
+                            <span class="material-symbols-outlined text-stone-400 text-sm mr-2">search</span>
+                            <input class="bg-transparent border-none focus:ring-0 text-sm w-48 placeholder-stone-400" placeholder="Search Atelier..." type="text"/>
+                        </div>
+                        <button class="p-2 hover:bg-[#f5f3ef] dark:hover:bg-stone-900 transition-colors">
+                            <span class="material-symbols-outlined text-stone-600 dark:text-stone-400">settings</span>
+                        </button>
+                        <button class="p-2 hover:bg-[#f5f3ef] dark:hover:bg-stone-900 transition-colors">
+                            <span class="material-symbols-outlined text-stone-600 dark:text-stone-400">help</span>
+                        </button>
+                        <img alt="User profile" class="w-8 h-8 rounded-full border border-surface-container-highest" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQeUkHfl5qwQlXGdYUvbwXKbCDZGO04s6Sqw9SLBw84gKRr1yatswdAsOXqnxazgCgRPLz8kxLCvtk60ErqG-1Y-qcTlEWCadzr2jr7Hnei8oyWZzPYS8KHt05OtqVaU04c5Fg9DhERYqYi4ltBOl6smoGHd9WcSUy2OLAvP0fk9bpDYrR1hN38kGdRzQrm5jDHQqR8EtP5lprIewPyQuI3neWKaT17HOPFO0RR_odOZW9o6qtuy1yMRKennB2-Zg9yudpiFJDAZo"/>
+                    </div>
+                </header>
+            );
+        };
+
+        const SidebarRail = () => {
+            const location = useLocation();
+            const isActive = (paths) => paths.includes(location.pathname);
+            
+            return (
+                <aside class="w-16 md:w-20 flex flex-col items-center py-6 bg-[#f5f3ef] dark:bg-stone-900 border-r border-transparent z-20 sticky left-0 h-[calc(100vh-72px)]">
+                    <div class="flex flex-col gap-8 flex-1">
+                        <Link to="/sequencer" className={`${isActive(['/sequencer']) ? 'text-primary' : 'text-stone-500'} hover:text-primary transition-colors`} title="Flows">
+                            <span class="material-symbols-outlined text-2xl">account_tree</span>
+                        </Link>
+                        <Link to="/board" className={`${isActive(['/board']) ? 'text-primary' : 'text-stone-500'} hover:text-primary transition-colors`} title="Epics">
+                            <span class="material-symbols-outlined text-2xl">auto_stories</span>
+                        </Link>
+                        <Link to="/inspector" className={`${isActive(['/inspector']) ? 'text-primary' : 'text-stone-500'} hover:text-primary transition-colors`} title="Artifacts">
+                            <span class="material-symbols-outlined text-2xl">history_edu</span>
+                        </Link>
+                        <button class="text-stone-500 dark:text-stone-400 hover:text-primary" title="Library">
+                            <span class="material-symbols-outlined text-2xl">shelves</span>
+                        </button>
+                    </div>
+                    <div class="flex flex-col gap-6">
+                        <Link to="/runs" className={`${isActive(['/runs']) ? 'text-primary' : 'text-stone-400'} hover:text-primary transition-colors`} title="Status">
+                            <span class="material-symbols-outlined text-xl">query_stats</span>
+                        </Link>
+                        <button class="text-stone-400 hover:text-primary" title="History"><span class="material-symbols-outlined text-xl">database</span></button>
+                    </div>
+                </aside>
+            );
+        };
+
+        // --- Pages ---
+
+        const CardEditorPage = () => (
+            <div className="flex flex-col h-screen overflow-hidden">
+                <TopNavBar />
+                <div class="flex flex-1 overflow-hidden">
+                    <SidebarRail />
+                    <main class="flex-1 flex overflow-hidden">
+                        <section class="flex-1 overflow-y-auto px-12 py-10 bg-surface">
+                            <div class="max-w-4xl mx-auto space-y-12">
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-2 text-primary font-label text-xs tracking-widest uppercase mb-4">
+                                        <span class="material-symbols-outlined text-sm" style={{fontVariationSettings: "'FILL' 1"}}>description</span>
+                                        <span>Card Definition</span>
+                                    </div>
+                                    <input class="w-full font-serif text-5xl font-bold bg-transparent border-none focus:ring-0 p-0 text-on-surface placeholder-surface-variant" placeholder="Untitled Card" type="text" defaultValue="Draft Requirements"/>
+                                    <p class="text-secondary font-body text-lg italic">Standardizing product alignment and technical scope.</p>
+                                </div>
+                                <div class="grid grid-cols-3 gap-12 pt-8 border-t border-surface-container">
+                                    <div class="space-y-2">
+                                        <label class="font-label text-xs text-stone-500 uppercase tracking-tighter">Card Kind</label>
+                                        <div class="flex items-center gap-2 text-on-surface font-body font-medium">
+                                            <span class="material-symbols-outlined text-primary text-lg">schema</span>
+                                            <span>Requirements</span>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="font-label text-xs text-stone-500 uppercase tracking-tighter">Display Category</label>
+                                        <div class="flex items-center gap-2 text-on-surface font-body font-medium">
+                                            <span class="material-symbols-outlined text-primary text-lg">folder_open</span>
+                                            <span>Core Engineering</span>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="font-label text-xs text-stone-500 uppercase tracking-tighter">Output Type</label>
+                                        <div class="flex items-center gap-2 text-on-surface font-body font-medium">
+                                            <span class="material-symbols-outlined text-primary text-lg">article</span>
+                                            <span>requirements_doc</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-y-4">
+                                    <h3 class="font-serif text-2xl font-semibold">Purpose</h3>
+                                    <textarea class="w-full bg-surface-container-low border-none focus:ring-1 focus:ring-primary text-on-surface font-body p-4 min-h-[100px] leading-relaxed" placeholder="Describe why this card exists..." defaultValue="This card serves as the foundational logic for extracting functional and non-functional requirements from unstructured product briefs, ensuring technical parity and stakeholder alignment." />
+                                </div>
+                                <div class="space-y-4">
+                                    <div class="flex justify-between items-end">
+                                        <h3 class="font-serif text-2xl font-semibold">System Prompt</h3>
+                                        <button class="text-primary text-xs font-label uppercase flex items-center gap-1 hover:underline">
+                                            <span class="material-symbols-outlined text-sm">auto_fix</span> Optimizing
+                                        </button>
+                                    </div>
+                                    <div class="bg-surface-container-lowest p-8 border-l-4 border-primary shadow-sm">
+                                        <pre class="font-mono text-sm text-stone-700 whitespace-pre-wrap leading-loose">
+{`Act as a Senior Systems Architect. Analyze the following INPUTS and generate a comprehensive 'Requirements Document' that follows the Atelier standard.
+
+## Constraints:
+1. Prioritize scalability and modularity.
+2. Flag any technical contradictions.
+3. Map every feature to an atomic output node.
+
+## Format:
+Use the standard .rk-doc schema with nested YAML for metadata.`}</pre>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-16">
+                                    <div class="space-y-6">
+                                        <h3 class="font-serif text-2xl font-semibold border-b border-surface-container pb-2">Inputs</h3>
+                                        <div class="space-y-4">
+                                            <div class="p-4 bg-surface-container-low flex justify-between items-center">
+                                                <span class="font-body font-medium text-on-surface">product_brief</span>
+                                                <span class="font-label text-[10px] bg-surface-container-highest px-2 py-0.5 text-stone-600">STRING</span>
+                                            </div>
+                                            <div class="p-4 bg-surface-container-low flex justify-between items-center">
+                                                <span class="font-body font-medium text-on-surface">tech_constraints</span>
+                                                <span class="font-label text-[10px] bg-surface-container-highest px-2 py-0.5 text-stone-600">JSON</span>
+                                            </div>
+                                            <button class="w-full py-3 border border-dashed border-outline-variant text-stone-400 font-label text-xs uppercase hover:bg-surface-container-low transition-colors">+ Add Input</button>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-6">
+                                        <h3 class="font-serif text-2xl font-semibold border-b border-surface-container pb-2">Outputs</h3>
+                                        <div class="space-y-4">
+                                            <div class="p-4 bg-surface-container-low flex justify-between items-center">
+                                                <span class="font-body font-medium text-on-surface">requirements_manifest</span>
+                                                <span class="font-label text-[10px] bg-primary text-on-primary px-2 py-0.5">ORKET-DOC</span>
+                                            </div>
+                                            <button class="w-full py-3 border border-dashed border-outline-variant text-stone-400 font-label text-xs uppercase hover:bg-surface-container-low transition-colors">+ Add Output</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="h-20"></div>
+                            </div>
+                        </section>
+                        <aside class="w-80 bg-surface-container-low border-l border-transparent px-6 py-10 space-y-10 overflow-y-auto">
+                            <div>
+                                <h4 class="font-label text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-6">Live Validation</h4>
+                                <div class="space-y-4">
+                                    <div class="flex items-start gap-3 p-3 bg-surface-container-highest/50 border-l-2 border-primary">
+                                        <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+                                        <div>
+                                            <p class="text-xs font-bold text-on-surface">Card Ready</p>
+                                            <p class="text-[10px] text-stone-500">All mandatory fields are populated.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pt-10">
+                                <button class="w-full py-4 bg-primary text-on-primary font-label text-sm font-semibold tracking-wide hover:opacity-90 transition-opacity flex justify-center items-center gap-2">
+                                    <span>Save & Commit Artifact</span>
+                                </button>
+                                <button class="w-full mt-3 py-4 border border-outline text-primary font-label text-sm font-semibold tracking-wide hover:bg-white transition-colors">Discard Draft</button>
+                            </div>
+                        </aside>
+                    </main>
+                </div>
+            </div>
+        );
+
+        const BoardPage = () => (
+            <div className="flex flex-col h-screen overflow-hidden">
+                <TopNavBar />
+                <div class="flex flex-1 overflow-hidden">
+                    <SidebarRail />
+                    <main class="flex-1 flex flex-col overflow-hidden bg-surface">
+                        <div class="px-8 pt-8 pb-4">
+                            <div class="flex items-end gap-3 mb-1">
+                                <h1 class="text-4xl font-serif font-semibold text-primary">Orket UI Requirements</h1>
+                                <span class="text-xs font-label text-stone-400 mb-1.5 uppercase tracking-widest">Epic #104</span>
+                            </div>
+                            <p class="text-stone-500 font-body text-sm max-w-2xl">Definition and refinement of the core user interface architecture, focusing on the editorial design system.</p>
+                        </div>
+                        <div class="flex-1 overflow-x-auto no-scrollbar flex gap-8 p-8 items-start">
+                            {['Intent', 'Definition', 'Critique', 'Artifact'].map((col, i) => (
+                                <div key={col} class="w-80 flex-shrink-0 flex flex-col h-full">
+                                    <div class="flex items-center justify-between mb-4 px-1">
+                                        <h3 class="font-serif text-lg font-medium text-stone-800">{col}</h3>
+                                        <span class="text-[10px] font-label font-bold bg-surface-container-high px-2 py-0.5 rounded-full text-stone-600">{i === 1 ? '1 ACTIVE' : '3'}</span>
+                                    </div>
+                                    <div class="flex flex-col gap-4 overflow-y-auto no-scrollbar pb-8">
+                                        <div class={`p-5 rounded shadow-sm hover:shadow-md transition-shadow group cursor-grab ${i === 1 ? 'bg-white border-2 border-primary/20' : 'bg-surface-container-lowest border border-outline-variant/10'}`}>
+                                            <div class="flex justify-between items-start mb-3">
+                                                <span class="text-[10px] font-label text-stone-400 uppercase tracking-tighter">Draft</span>
+                                                {i === 1 && <span class="flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>}
+                                            </div>
+                                            <h4 class="font-body font-semibold text-stone-900 mb-2 leading-tight">Draft Requirements</h4>
+                                            <p class="text-xs text-stone-500 line-clamp-2">Translating high-level atelier vision into functional component specs.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </main>
+                    <aside class="w-96 h-full bg-[#f5f3ef] border-l border-outline-variant/20 flex flex-col z-20">
+                        <div class="p-6 border-b border-outline-variant/10">
+                            <h2 class="font-serif text-xl font-bold text-primary">Active Run</h2>
+                        </div>
+                        <div class="flex-1 overflow-y-auto no-scrollbar p-6">
+                            <div class="bg-white p-5 rounded border border-outline-variant/20 shadow-sm mb-6">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="w-10 h-10 bg-primary rounded-sm flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-white" style={{fontVariationSettings: "'FILL' 1"}}>bolt</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-[10px] font-label text-stone-400 uppercase">Phase</p>
+                                        <h4 class="font-serif font-bold text-stone-900 leading-tight">Requirement Synthesis</h4>
+                                    </div>
+                                </div>
+                                <div class="w-full bg-surface-container-high h-1 rounded-full overflow-hidden">
+                                    <div class="bg-primary h-full w-[65%]"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6 mt-auto">
+                            <button class="w-full bg-primary text-white py-3 rounded-sm font-semibold text-sm flex items-center justify-center gap-2 hover:bg-primary-container transition-colors">
+                                <span class="material-symbols-outlined text-sm">play_arrow</span> Advance Run
+                            </button>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        );
+
+        const RunsPage = () => (
+            <div className="flex flex-col h-screen overflow-hidden">
+                <TopNavBar />
+                <div class="flex flex-1 overflow-hidden">
+                    <SidebarRail />
+                    <main class="flex-1 overflow-auto px-12 py-10 bg-surface">
+                        <div class="flex justify-between items-end mb-12">
+                            <div>
+                                <h1 class="font-serif text-4xl text-on-surface font-bold tracking-tight mb-2">Run History</h1>
+                                <p class="font-body text-stone-500 text-sm max-w-lg">Audit log and status monitor for all active execution sequences.</p>
+                            </div>
+                            <div class="flex gap-4">
+                                <button class="bg-surface-container-highest text-primary font-body text-sm font-semibold px-6 py-2 rounded-sm hover:bg-stone-200 transition-colors">Export Logs</button>
+                                <button class="bg-primary text-on-primary font-body text-sm font-semibold px-6 py-2 rounded-sm hover:opacity-90 transition-opacity">Initiate New Run</button>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-4 gap-6 mb-12">
+                            {[
+                                {label: 'Total Runs', val: '1,284'},
+                                {label: 'Success Rate', val: '98.2%', color: 'text-[#004532]'},
+                                {label: 'Average Runtime', val: '14m 22s'},
+                                {label: 'Active Flows', val: '3', color: 'text-tertiary'},
+                            ].map(stat => (
+                                <div key={stat.label} class="bg-surface-container-low p-6 flex flex-col gap-1">
+                                    <span class="font-label text-[10px] uppercase tracking-widest text-stone-400 font-semibold">{stat.label}</span>
+                                    <span class={`font-serif text-3xl font-bold ${stat.color || 'text-on-surface'}`}>{stat.val}</span>
+                                </div>
+                            ))}
+                        </div>
+                        <div class="bg-surface-container-lowest rounded-sm overflow-hidden ring-1 ring-black/[0.03]">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-surface-container-low">
+                                    <tr>
+                                        {['Run ID', 'Epic', 'Flow', 'Start Time', 'Phase', 'Status'].map(h => (
+                                            <th key={h} class="px-6 py-4 font-label text-[11px] font-bold text-stone-400 uppercase tracking-widest">{h}</th>
+                                        ))}
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-stone-100">
+                                    <tr class="hover:bg-surface-container-low/50 transition-colors">
+                                        <td class="px-6 py-5 font-mono text-xs text-primary font-bold">R-7721-X</td>
+                                        <td class="px-6 py-5 font-body text-sm font-medium">Alpha Core</td>
+                                        <td class="px-6 py-5 font-body text-sm text-stone-600">Cognitive Mapper v2</td>
+                                        <td class="px-6 py-5 font-label text-xs text-stone-500">2023-11-24 14:20:01</td>
+                                        <td class="px-6 py-5">
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></div>
+                                                <span class="font-label text-xs font-medium text-tertiary">Extraction</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-5">
+                                            <span class="bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-sm">Running</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        );
+
+        const InspectorPage = () => (
+            <div className="flex flex-col h-screen overflow-hidden">
+                <TopNavBar />
+                <div class="flex flex-1 overflow-hidden">
+                    <aside class="flex flex-col h-full w-72 bg-[#f5f3ef] dark:bg-stone-900 border-r border-transparent">
+                        <div class="p-6 border-b border-surface-variant/30">
+                            <div class="flex items-center space-x-3 mb-6">
+                                <div class="w-10 h-10 bg-primary flex items-center justify-center rounded-sm">
+                                    <span class="material-symbols-outlined text-on-primary">architecture</span>
+                                </div>
+                                <div>
+                                    <h2 class="text-lg font-semibold text-primary">The Atelier</h2>
+                                </div>
+                            </div>
+                            <button class="w-full bg-primary text-on-primary py-2 px-4 rounded-sm text-sm font-medium">New Artifact</button>
+                        </div>
+                        <div class="flex-1 overflow-y-auto py-4 px-3 space-y-6">
+                            <h3 class="px-3 text-[10px] font-label font-bold uppercase tracking-widest text-stone-400">File Hierarchy</h3>
+                            <div class="space-y-1">
+                                <div class="flex items-center px-3 py-1.5 text-stone-600 cursor-pointer rounded">
+                                    <span class="material-symbols-outlined text-sm mr-2">folder_open</span>
+                                    <span class="text-xs font-medium">src/artifacts</span>
+                                </div>
+                                <div class="ml-8 space-y-1 border-l border-surface-variant">
+                                    <div class="flex items-center px-3 py-1 text-primary bg-surface-container-highest cursor-pointer text-xs font-semibold">
+                                        <span class="material-symbols-outlined text-[14px] mr-2">schema</span>
+                                        architect_flow.graph
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                    <section class="flex-1 flex flex-col bg-surface relative overflow-hidden">
+                        <header class="h-16 flex items-center justify-between px-8 bg-surface border-b border-surface-variant/10">
+                            <h1 class="text-2xl font-headline font-bold">Run #4212-A</h1>
+                            <div class="flex items-center space-x-2 bg-surface-container-low p-1 rounded">
+                                <button class="px-4 py-1.5 text-xs font-medium bg-surface-container-lowest text-primary shadow-sm">Graph View</button>
+                                <button class="px-4 py-1.5 text-xs font-medium text-stone-500">JSON Schema</button>
+                            </div>
+                        </header>
+                        <div class="flex-1 p-8 relative overflow-hidden bg-[radial-gradient(#e4e2de_1px,transparent_1px)] [background-size:20px_20px]">
+                            <div class="w-full h-full flex items-center justify-center">
+                                <div class="relative w-full max-w-4xl h-full flex items-center justify-around">
+                                    <div class="w-48 bg-surface-container-lowest p-5 border-l-4 border-primary shadow-lg ring-1 ring-on-surface/5">
+                                        <h4 class="font-headline text-lg font-bold">Data Ingest</h4>
+                                    </div>
+                                    <div class="w-12 h-[1px] bg-outline-variant"></div>
+                                    <div class="w-56 bg-surface-container-lowest p-6 border-l-4 border-tertiary shadow-lg ring-2 ring-primary">
+                                        <h4 class="font-headline text-xl font-bold">System Flow Architect</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <aside class="w-96 bg-surface-container-low flex flex-col">
+                        <header class="p-6 border-b border-surface-variant/30"><h3 class="text-xl font-headline font-bold">Metadata Inspector</h3></header>
+                        <div class="flex-1 overflow-y-auto p-6 space-y-8">
+                            <div class="bg-on-background text-background p-4 rounded-sm font-mono text-[11px] leading-relaxed">
+                                <pre>{`{
+  "artifact_id": "sha-4212a-001",
+  "version": "1.4.0",
+  "nodes": [
+    { "id": "n1", "state": "committed" }
+  ]
+}`}</pre>
+                            </div>
+                            <div class="w-full aspect-video rounded-sm overflow-hidden bg-stone-200">
+                                <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbiibTfxD3Y7KeRQlK0cyISFS9Qo6J_8Ed7IjJZ_BlVThpcxgD184dXzyTbsFjZBEGMlC1BYOVtrpO2ODyggApwBCT-FxHT-atqr2uh9A1CoFKDquGlQJpeBwVqlnqJ_khu5chgu1lp5z0oKzC4AVczlAb5aw_vsi5-EvR00_Frb1OSPOziKFUWEAH94cE2_kUXNjII0dkLr0PaTovjLufBEAwsji993vYnH7b_XovYDsdQJEWSe7Eh7g8_3sAt9KznjV5iAJZT_Q" />
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        );
+
+        const ReforgerPage = () => (
+            <div className="flex flex-col h-screen overflow-hidden">
+                <TopNavBar />
+                <div class="flex flex-1 overflow-hidden">
+                    <SidebarRail />
+                    <main class="flex-1 flex overflow-hidden">
+                        <section class="flex-1 p-12 overflow-y-auto bg-surface border-r border-surface-container-highest">
+                            <div class="max-w-5xl mx-auto space-y-12">
+                                <header class="space-y-2">
+                                    <h1 class="text-4xl font-serif text-on-background tracking-tight">Prompt Reforger</h1>
+                                    <p class="text-sm font-label text-on-surface-variant uppercase tracking-widest font-medium">Task: Financial Analyst Persona</p>
+                                </header>
+                                <div class="grid grid-cols-2 gap-12">
+                                    <div class="space-y-6">
+                                        <h3 class="text-lg font-serif italic text-on-surface">Source Prompt</h3>
+                                        <div class="p-8 bg-surface-container-low rounded-lg min-h-[400px] shadow-sm border border-outline-variant/10">
+                                            <p class="font-body text-sm leading-relaxed text-on-surface-variant">Act as a highly experienced financial analyst with 20 years of experience...</p>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-6">
+                                        <h3 class="text-lg font-serif italic text-primary">Candidate Variant 01</h3>
+                                        <div class="p-8 bg-surface-container-lowest rounded-lg min-h-[400px] shadow-md border border-primary/10">
+                                            <p class="font-body text-sm leading-relaxed text-on-surface">System Role: Senior Equity Analyst. Task: Synthesize 10-Q report...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="w-96 bg-[#f5f3ef] overflow-y-auto">
+                            <div class="p-10 space-y-12">
+                                <h2 class="font-serif text-xl">Evaluation</h2>
+                                <div class="p-6 bg-surface-container-lowest rounded-lg border border-primary/20 flex flex-col items-center">
+                                    <div class="text-primary font-bold text-lg font-serif">Certified</div>
+                                </div>
+                                <div class="space-y-4">
+                                    <div class="flex justify-between items-end">
+                                        <div class="text-xs font-label text-stone-500 uppercase">Precision Score</div>
+                                        <div class="text-2xl font-serif text-primary">98.4%</div>
+                                    </div>
+                                    <div class="h-1 bg-surface-container-highest w-full rounded-full overflow-hidden">
+                                        <div class="h-full bg-primary w-[98.4%]"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+                </div>
+            </div>
+        );
+
+        const SequencerPage = () => (
+            <div className="flex flex-col h-screen overflow-hidden">
+                <TopNavBar />
+                <div class="flex flex-1 overflow-hidden">
+                    <SidebarRail />
+                    <main class="flex-1 relative bg-surface canvas-grid overflow-hidden">
+                        <div class="absolute top-6 left-8">
+                            <h1 class="font-serif text-3xl text-primary font-bold">Project Alpha</h1>
+                            <p class="font-sans text-sm text-stone-500 mt-1">Architecture Flow • Last saved 2m ago</p>
+                        </div>
+                        <div class="absolute inset-0 flex items-center justify-center p-20">
+                            <div class="relative w-full h-full max-w-5xl">
+                                <div class="absolute top-1/2 left-0 -translate-y-1/2 p-4 bg-surface-container-lowest border-2 border-primary/20 rounded-sm shadow-sm w-32 text-center">
+                                    <p class="text-xs font-bold uppercase">Start</p>
+                                </div>
+                                <div class="absolute top-1/2 left-48 -translate-y-1/2 p-5 bg-surface-container-lowest border-2 border-primary rounded-sm shadow-xl w-64 ring-4 ring-primary/5">
+                                    <h3 class="font-serif text-lg leading-tight mb-2">Core API Spec</h3>
+                                    <p class="text-xs text-stone-500">Define endpoints and auth protocols.</p>
+                                </div>
+                                <div class="absolute top-1/2 left-[440px] -translate-y-1/2 p-5 bg-surface-container-lowest border border-outline-variant/40 rounded-sm shadow-sm w-64">
+                                    <h3 class="font-serif text-lg leading-tight mb-2">Auth Module</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                    <aside class="w-80 h-full bg-[#fbf9f5] border-l border-outline-variant/10 flex flex-col p-6 space-y-8">
+                        <div>
+                            <span class="font-label text-[10px] font-bold text-stone-400 uppercase tracking-widest">Inspector</span>
+                            <h2 class="font-serif text-2xl font-bold text-primary">Core API Spec</h2>
+                        </div>
+                        <button class="w-full py-3 bg-primary text-on-primary font-sans text-sm font-bold rounded-sm hover:bg-[#003628] transition-colors flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">play_arrow</span> Run Flow
+                        </button>
+                    </aside>
+                </div>
+            </div>
+        );
+
+        // --- Router App ---
+
+        const App = () => {
+            return (
+                <MemoryRouter>
+                    <Routes>
+                        <Route path="/" element={<CardEditorPage />} />
+                        <Route path="/board" element={<BoardPage />} />
+                        <Route path="/runs" element={<RunsPage />} />
+                        <Route path="/inspector" element={<InspectorPage />} />
+                        <Route path="/reforger" element={<ReforgerPage />} />
+                        <Route path="/sequencer" element={<SequencerPage />} />
+                    </Routes>
+                </MemoryRouter>
+            );
+        };
+
+        const container = document.getElementById('root');
+        const root = createRoot(container);
+        root.render(<App />);
+    </script>
+</body>
+</html>

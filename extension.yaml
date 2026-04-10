@@ -1,0 +1,6 @@
+manifest_version: v0
+extension_id: orket.ui
+extension_version: 0.1.0
+workloads:
+  - workload_id: ui_bootstrap
+    entrypoint: orket_ui_extension.workload:run

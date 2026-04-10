@@ -1,0 +1,365 @@
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Manrope:wght@200..800&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-tertiary-container": "#ffb87e",
+            "on-secondary-fixed": "#0f1f16",
+            "background": "#fbf9f5",
+            "on-background": "#1b1c1a",
+            "on-surface-variant": "#3f4944",
+            "secondary-fixed-dim": "#b8cbbd",
+            "on-secondary-fixed-variant": "#3a4b40",
+            "on-primary": "#ffffff",
+            "surface-variant": "#e4e2de",
+            "on-tertiary-fixed": "#2f1500",
+            "on-primary-fixed": "#002116",
+            "secondary-fixed": "#d4e7d9",
+            "primary-fixed": "#a6f2d1",
+            "on-error-container": "#93000a",
+            "surface-dim": "#dbdad6",
+            "on-error": "#ffffff",
+            "inverse-on-surface": "#f2f0ed",
+            "on-surface": "#1b1c1a",
+            "on-tertiary-fixed-variant": "#6e3900",
+            "tertiary": "#5e3000",
+            "on-primary-container": "#8bd6b7",
+            "surface": "#fbf9f5",
+            "on-tertiary": "#ffffff",
+            "secondary": "#516257",
+            "outline": "#6f7973",
+            "on-secondary-container": "#55675b",
+            "surface-tint": "#1b6b51",
+            "surface-container-highest": "#e4e2de",
+            "primary-container": "#065f46",
+            "on-primary-fixed-variant": "#00513b",
+            "outline-variant": "#bec9c2",
+            "primary": "#004532",
+            "surface-container-high": "#eae8e4",
+            "surface-container-low": "#f5f3ef",
+            "inverse-primary": "#8bd6b6",
+            "primary-fixed-dim": "#8bd6b6",
+            "tertiary-fixed": "#ffdcc3",
+            "on-secondary": "#ffffff",
+            "secondary-container": "#d1e4d6",
+            "surface-bright": "#fbf9f5",
+            "error": "#ba1a1a",
+            "surface-container": "#efeeea",
+            "surface-container-lowest": "#ffffff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "fontFamily": {
+            "headline": ["Newsreader"],
+            "body": ["Manrope"],
+            "label": ["Inter"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    body { font-family: 'Manrope', sans-serif; }
+    h1, h2, h3 { font-family: 'Newsreader', serif; }
+    .label-text { font-family: 'Inter', sans-serif; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #fbf9f5; }
+    ::-webkit-scrollbar-thumb { background: #e4e2de; border-radius: 10px; }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- TopNavBar Implementation -->
+<nav class="flex justify-between items-center w-full px-8 py-4 bg-[#fbf9f5] dark:bg-stone-950 z-50">
+<div class="text-2xl font-serif font-bold text-[#004532] dark:text-emerald-400">Orket</div>
+<div class="hidden md:flex items-center space-x-8 font-sans">
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] transition-colors" href="#">Cards</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] transition-colors" href="#">Board</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] transition-colors" href="#">Runs</a>
+<a class="text-[#004532] dark:text-emerald-400 border-b-2 border-[#004532] dark:border-emerald-500 pb-1" href="#">Inspector</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] transition-colors" href="#">Sequencer</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#004532] transition-colors" href="#">Prompt Reforger</a>
+</div>
+<div class="flex items-center space-x-4">
+<button class="material-symbols-outlined text-stone-500 hover:bg-[#f5f3ef] p-2 rounded">settings</button>
+<button class="material-symbols-outlined text-stone-500 hover:bg-[#f5f3ef] p-2 rounded">help</button>
+<div class="w-8 h-8 rounded bg-surface-container-highest overflow-hidden">
+<img alt="User workspace profile" data-alt="professional male portrait with soft studio lighting and neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYIwLOZ7qWePYqBEvIMXtYLMTTFJPsIRyPIhrKuTAFAr6CRKAs2aeKd0MBLEspv9zBANukp0FXTks8ErF6iHMyM6P2KoTGY3361nIS2Gqtrg_vmBu5nijeq1LOA9KJ0ci0Wbisqj8pSD0GhE-Ks9D8f-pvpsorkIiOhYh1ExpnmWx9IIWn1KM5uhLBtGVtPKKrN4cOPBMq8TjDDVkaIzRv7ObczG9bI_mV3uQnMipAGAXFHvvyiaqilTHxwocCavNdGeTYHZEKme0"/>
+</div>
+</div>
+</nav>
+<main class="flex-1 flex overflow-hidden">
+<!-- SideNavBar (Left Rail - Expanded for Artifact Tree) -->
+<aside class="flex flex-col h-full w-72 bg-[#f5f3ef] dark:bg-stone-900 border-r border-transparent">
+<div class="p-6 border-b border-surface-variant/30">
+<div class="flex items-center space-x-3 mb-6">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded-sm">
+<span class="material-symbols-outlined text-on-primary">architecture</span>
+</div>
+<div>
+<h2 class="text-lg font-semibold text-primary">The Atelier</h2>
+<p class="text-[10px] uppercase tracking-wider text-stone-500 font-label">System Architect</p>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-2 px-4 rounded-sm text-sm font-medium hover:opacity-90 transition-opacity">
+          New Artifact
+        </button>
+</div>
+<div class="flex-1 overflow-y-auto py-4 px-3 space-y-6">
+<!-- Main Navigation -->
+<nav class="space-y-1">
+<div class="flex items-center px-3 py-2 text-stone-500 hover:text-[#004532] cursor-pointer group">
+<span class="material-symbols-outlined mr-3" data-icon="account_tree">account_tree</span>
+<span class="text-sm font-medium">Flows</span>
+</div>
+<div class="flex items-center px-3 py-2 text-stone-500 hover:text-[#004532] cursor-pointer">
+<span class="material-symbols-outlined mr-3" data-icon="auto_stories">auto_stories</span>
+<span class="text-sm font-medium">Epics</span>
+</div>
+<div class="flex items-center px-3 py-2 text-[#004532] dark:text-emerald-400 font-semibold cursor-pointer">
+<span class="material-symbols-outlined mr-3" data-icon="history_edu">history_edu</span>
+<span class="text-sm font-medium">Artifacts</span>
+</div>
+<div class="flex items-center px-3 py-2 text-stone-500 hover:text-[#004532] cursor-pointer">
+<span class="material-symbols-outlined mr-3" data-icon="shelves">shelves</span>
+<span class="text-sm font-medium">Library</span>
+</div>
+</nav>
+<!-- Artifact Tree -->
+<div class="space-y-4">
+<h3 class="px-3 text-[10px] font-label font-bold uppercase tracking-widest text-stone-400">File Hierarchy</h3>
+<div class="space-y-1">
+<details class="group" open="">
+<summary class="flex items-center px-3 py-1.5 text-stone-600 hover:bg-surface-variant/40 cursor-pointer list-none rounded">
+<span class="material-symbols-outlined text-sm mr-2 transform group-open:rotate-90 transition-transform">chevron_right</span>
+<span class="material-symbols-outlined text-sm mr-2">folder</span>
+<span class="text-xs font-medium">src/artifacts</span>
+</summary>
+<div class="ml-8 space-y-1 mt-1 border-l border-surface-variant">
+<div class="flex items-center px-3 py-1 text-stone-500 hover:text-primary cursor-pointer text-xs">
+<span class="material-symbols-outlined text-[14px] mr-2">description</span>
+                  schema_definition.json
+                </div>
+<div class="flex items-center px-3 py-1 text-primary bg-surface-container-highest cursor-pointer text-xs font-semibold">
+<span class="material-symbols-outlined text-[14px] mr-2">schema</span>
+                  architect_flow.graph
+                </div>
+<div class="flex items-center px-3 py-1 text-stone-500 hover:text-primary cursor-pointer text-xs">
+<span class="material-symbols-outlined text-[14px] mr-2">description</span>
+                  node_registry.xml
+                </div>
+</div>
+</details>
+<details class="group">
+<summary class="flex items-center px-3 py-1.5 text-stone-600 hover:bg-surface-variant/40 cursor-pointer list-none rounded">
+<span class="material-symbols-outlined text-sm mr-2 transform group-open:rotate-90 transition-transform">chevron_right</span>
+<span class="material-symbols-outlined text-sm mr-2">folder</span>
+<span class="text-xs font-medium">logs</span>
+</summary>
+<div class="ml-8 space-y-1 mt-1 border-l border-surface-variant">
+<div class="flex items-center px-3 py-1 text-stone-500 hover:text-primary cursor-pointer text-xs">
+                  run_4212-A_trace.log
+                </div>
+</div>
+</details>
+</div>
+</div>
+</div>
+<div class="p-4 bg-surface-container-highest/30 border-t border-surface-variant/30 mt-auto">
+<div class="space-y-2">
+<div class="flex items-center space-x-2 text-stone-500 hover:text-primary cursor-pointer">
+<span class="material-symbols-outlined text-lg" data-icon="query_stats">query_stats</span>
+<span class="text-xs font-medium">Flow Status</span>
+</div>
+<div class="flex items-center space-x-2 text-stone-500 hover:text-primary cursor-pointer">
+<span class="material-symbols-outlined text-lg" data-icon="database">database</span>
+<span class="text-xs font-medium">Run History</span>
+</div>
+<div class="flex items-center space-x-2 text-stone-500 hover:text-primary cursor-pointer">
+<span class="material-symbols-outlined text-lg" data-icon="grid_view">grid_view</span>
+<span class="text-xs font-medium">Palette</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Center Content (Artifact/Graph Viewer) -->
+<section class="flex-1 flex flex-col bg-surface relative overflow-hidden">
+<!-- Toolbar -->
+<header class="h-16 flex items-center justify-between px-8 bg-surface border-b border-surface-variant/10">
+<div class="flex items-center space-x-4">
+<h1 class="text-2xl font-headline font-bold">Run #4212-A</h1>
+<span class="bg-primary-fixed text-on-primary-fixed text-[10px] px-2 py-0.5 font-label font-bold uppercase tracking-tighter">Active Run</span>
+</div>
+<div class="flex items-center space-x-2 bg-surface-container-low p-1 rounded">
+<button class="px-4 py-1.5 text-xs font-medium bg-surface-container-lowest text-primary shadow-sm">Graph View</button>
+<button class="px-4 py-1.5 text-xs font-medium text-stone-500 hover:bg-surface-variant">JSON Schema</button>
+</div>
+</header>
+<!-- Graph Canvas -->
+<div class="flex-1 p-8 relative overflow-hidden bg-[radial-gradient(#e4e2de_1px,transparent_1px)] [background-size:20px_20px]">
+<!-- Breadcrumbs -->
+<div class="absolute top-4 left-8 flex items-center space-x-2 text-[11px] font-label font-medium text-stone-400">
+<span>Root</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span>System Flow Architect</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-bold">Artifact Preview</span>
+</div>
+<!-- Simulated Flow Graph -->
+<div class="w-full h-full flex items-center justify-center">
+<div class="relative w-full max-w-4xl h-full flex items-center justify-around">
+<!-- Node 1: Entry -->
+<div class="flex flex-col items-center space-y-4">
+<div class="w-48 bg-surface-container-lowest p-5 border-l-4 border-primary shadow-lg ring-1 ring-on-surface/5">
+<p class="text-[9px] uppercase font-label text-stone-400 tracking-widest mb-1">Entry Point</p>
+<h4 class="font-headline text-lg font-bold">Data Ingest</h4>
+<div class="mt-4 flex space-x-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<div class="flex-1 h-1 bg-surface-container-low mt-0.5 rounded-full overflow-hidden">
+<div class="w-3/4 h-full bg-primary-container"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Connector Line -->
+<div class="absolute w-24 h-[1px] bg-outline-variant left-[25%] top-1/2"></div>
+<!-- Node 2: Main Processing -->
+<div class="flex flex-col items-center space-y-4">
+<div class="w-56 bg-surface-container-lowest p-6 border-l-4 border-tertiary shadow-lg ring-2 ring-primary">
+<div class="flex justify-between items-start mb-2">
+<p class="text-[9px] uppercase font-label text-tertiary font-bold tracking-widest">Active Artifact</p>
+<span class="material-symbols-outlined text-primary text-sm">visibility</span>
+</div>
+<h4 class="font-headline text-xl font-bold">System Flow Architect</h4>
+<div class="mt-4 space-y-2">
+<div class="flex justify-between text-[10px] text-stone-500 font-label">
+<span>Provenance</span>
+<span class="text-on-background">Lvl 4 Chain</span>
+</div>
+<div class="flex justify-between text-[10px] text-stone-500 font-label">
+<span>Entropy</span>
+<span class="text-on-background">0.0021</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Connector Line -->
+<div class="absolute w-24 h-[1px] bg-outline-variant right-[25%] top-1/2"></div>
+<!-- Node 3: Output -->
+<div class="flex flex-col items-center space-y-4">
+<div class="w-48 bg-surface-container-lowest p-5 border-l-4 border-stone-300 shadow-lg ring-1 ring-on-surface/5 opacity-60">
+<p class="text-[9px] uppercase font-label text-stone-400 tracking-widest mb-1">Terminal</p>
+<h4 class="font-headline text-lg font-bold">Export Module</h4>
+<div class="mt-4 h-1 bg-surface-container-low rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Controls -->
+<div class="absolute bottom-8 right-8 flex flex-col space-y-2">
+<button class="w-10 h-10 bg-surface-container-lowest shadow-lg border border-surface-variant flex items-center justify-center hover:bg-surface transition-colors">
+<span class="material-symbols-outlined text-stone-600">zoom_in</span>
+</button>
+<button class="w-10 h-10 bg-surface-container-lowest shadow-lg border border-surface-variant flex items-center justify-center hover:bg-surface transition-colors">
+<span class="material-symbols-outlined text-stone-600">zoom_out</span>
+</button>
+<button class="w-10 h-10 bg-surface-container-lowest shadow-lg border border-surface-variant flex items-center justify-center hover:bg-surface transition-colors">
+<span class="material-symbols-outlined text-stone-600">center_focus_strong</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Right Metadata Inspector -->
+<aside class="w-96 bg-surface-container-low flex flex-col">
+<header class="p-6 border-b border-surface-variant/30">
+<h3 class="text-xl font-headline font-bold text-on-surface">Metadata Inspector</h3>
+<p class="text-xs font-label text-stone-500 mt-1">Inspecting selected node in Run #4212-A</p>
+</header>
+<div class="flex-1 overflow-y-auto p-6 space-y-8">
+<!-- Identity Section -->
+<section>
+<div class="flex items-center justify-between mb-4">
+<span class="text-[10px] uppercase font-label font-bold text-stone-400 tracking-widest">Identity</span>
+<span class="material-symbols-outlined text-stone-400 text-sm">content_copy</span>
+</div>
+<div class="space-y-4">
+<div>
+<label class="block text-[10px] font-label text-stone-500 mb-1">NAME</label>
+<p class="text-sm font-semibold text-primary">System Flow Architect</p>
+</div>
+<div>
+<label class="block text-[10px] font-label text-stone-500 mb-1">TYPE</label>
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-xs text-primary">data_object</span>
+<span class="text-xs font-medium">artifact</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Provenance & Relationships -->
+<section>
+<span class="text-[10px] uppercase font-label font-bold text-stone-400 tracking-widest block mb-4">Relationships</span>
+<div class="space-y-3">
+<div class="p-3 bg-surface border border-surface-variant/40 rounded-sm">
+<div class="flex items-center justify-between">
+<span class="text-[11px] font-bold text-on-surface">Parent Workflow</span>
+<span class="text-[9px] font-label text-primary bg-primary-fixed/50 px-1.5 rounded">Primary</span>
+</div>
+<p class="text-xs text-stone-500 mt-1">global-orchestrator-v2</p>
+</div>
+<div class="p-3 bg-surface border border-surface-variant/40 rounded-sm">
+<div class="flex items-center justify-between">
+<span class="text-[11px] font-bold text-on-surface">Associated Run</span>
+<span class="material-symbols-outlined text-sm text-stone-300">link</span>
+</div>
+<p class="text-xs text-stone-500 mt-1">#4212-A (Temporal Shadow)</p>
+</div>
+</div>
+</section>
+<!-- JSON Metadata Snippet -->
+<section>
+<span class="text-[10px] uppercase font-label font-bold text-stone-400 tracking-widest block mb-4">Provenance Data</span>
+<div class="bg-on-background text-background p-4 rounded-sm font-mono text-[11px] leading-relaxed overflow-x-auto">
+<pre><code>{
+  "artifact_id": "sha-4212a-001",
+  "version": "1.4.0",
+  "timestamp": "2023-11-24T14:22:01Z",
+  "author": "orket-auto-worker",
+  "nodes": [
+    { "id": "n1", "state": "committed" },
+    { "id": "n2", "state": "inspected" }
+  ],
+  "checksum": "8f2b7a9c1e..."
+}</code></pre>
+</div>
+</section>
+<!-- Visual Context Image -->
+<section>
+<span class="text-[10px] uppercase font-label font-bold text-stone-400 tracking-widest block mb-4">Output Preview</span>
+<div class="w-full aspect-video rounded-sm overflow-hidden bg-stone-200">
+<img alt="System Flow Architect" class="w-full h-full object-cover" data-alt="abstract visualization of digital data nodes connected by glowing green lines against a dark obsidian background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbiibTfxD3Y7KeRQlK0cyISFS9Qo6J_8Ed7IjJZ_BlVThpcxgD184dXzyTbsFjZBEGMlC1BYOVtrpO2ODyggApwBCT-FxHT-atqr2uh9A1CoFKDquGlQJpeBwVqlnqJ_khu5chgu1lp5z0oKzC4AVczlAb5aw_vsi5-EvR00_Frb1OSPOziKFUWEAH94cE2_kUXNjII0dkLr0PaTovjLufBEAwsji993vYnH7b_XovYDsdQJEWSe7Eh7g8_3sAt9KznjV5iAJZT_Q"/>
+</div>
+</section>
+</div>
+<footer class="p-6 bg-surface-container-high border-t border-surface-variant/20">
+<button class="w-full py-3 bg-on-background text-background font-label text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-opacity">
+          Export Full Provenance
+        </button>
+</footer>
+</aside>
+</main>
+</body></html>

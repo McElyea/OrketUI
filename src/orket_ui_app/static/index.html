@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OrketUI Scaffold</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <aside class="left-rail">
+        <div class="rail-brand">
+          <span class="rail-mark">OU</span>
+          <div>
+            <p class="eyebrow">External Extension</p>
+            <h1>OrketUI</h1>
+          </div>
+        </div>
+        <nav class="rail-nav" aria-label="Primary">
+          <a href="#cards">Cards</a>
+          <a href="#board">Board</a>
+          <a href="#runs">Runs</a>
+          <a href="#inspector">Inspector</a>
+          <a href="#sequencer">Sequencer</a>
+          <a href="#prompt-reforger">Prompt Reforger</a>
+        </nav>
+        <section class="rail-note">
+          <p class="eyebrow">Authority</p>
+          <p>The browser talks only to this local gateway. Host access stays behind `/api/*`.</p>
+        </section>
+      </aside>
+
+      <main class="workspace">
+        <header class="hero">
+          <p class="eyebrow">Initial Shell And BFF Scaffold</p>
+          <h2>Cream-and-emerald bootstrap for the live OrketUI lane</h2>
+          <p class="hero-copy">
+            This scaffold removes the implementation-authority bootstrap blocker. Write behavior is still blocked until host seams are admitted.
+          </p>
+        </header>
+
+        <section class="panel-grid">
+          <section class="panel">
+            <div class="panel-heading">
+              <p class="eyebrow">Gateway Status</p>
+              <h3>Scaffold metadata</h3>
+            </div>
+            <dl id="meta-summary" class="summary-list"></dl>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <p class="eyebrow">Host Check</p>
+              <h3>Admitted seam probe</h3>
+            </div>
+            <pre id="host-health" class="code-block">Loading...</pre>
+          </section>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <p class="eyebrow">Mockup Package</p>
+            <h3>Selected design tabs</h3>
+          </div>
+          <div id="design-tabs" class="tab-grid"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <p class="eyebrow">Blocked Writes</p>
+            <h3>Still gated by host seams</h3>
+          </div>
+          <ul id="blocked-actions" class="blocked-list"></ul>
+        </section>
+      </main>
+    </div>
+
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>
